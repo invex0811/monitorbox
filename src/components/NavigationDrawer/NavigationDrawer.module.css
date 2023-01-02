@@ -1,0 +1,23 @@
+.headerLink{
+    text-decoration: none;
+    color: #000;
+}
+.navLink{
+    display: block;
+    text-decoration: none;
+    color: #7D859D;
+    padding: 10px;
+    margin: 15px;
+}
+.active{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background: #3cc9f4;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 15px;
+}
+
+
+
