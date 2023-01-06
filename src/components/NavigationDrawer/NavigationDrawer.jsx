@@ -87,14 +87,14 @@ const NavigationDrawer = (props) => {
             paddingTop: "10px",
           }}
         >
-          <Tooltip title={toggle ? "" : "Dashboard"} arrow placement={"right"}>
+          <Tooltip title={toggle ? "" : "Menu"} arrow placement={"right"}>
             <Box
               sx={{
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 padding: "10px",
-                margin: "15px 15px 20px 15px",
+                margin: "15px 15px 30px 15px",
               }}
               onClick={() => {
                 setToggle(!toggle);
@@ -124,7 +124,7 @@ const NavigationDrawer = (props) => {
                     paddingLeft: "10px",
                   }}
                 >
-                  Dashboard
+                  Menu
                 </Box>
               </animated.div>
             </Box>
