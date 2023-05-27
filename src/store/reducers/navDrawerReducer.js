@@ -2,6 +2,7 @@ import {
   faMoneyBill1Wave,
   faClock,
   faCalendar,
+  faGaugeHigh,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DRAWER_TOGGLE = "DRAWER_TOGGLE";
@@ -28,6 +29,13 @@ const navDrawerState = {
       name: "Time calculator",
       src: "./images/clock.jpg",
       icon: faClock,
+    },
+    {
+      id: 4,
+      to: "/speedCalculator",
+      name: "Speed calculator",
+      src: "./images/clock.jpg",
+      icon: faGaugeHigh,
     },
   ],
 };

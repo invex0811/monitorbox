@@ -1,0 +1,16 @@
+.tab{
+  border: 1px solid #1876D1;
+  text-decoration: none;
+  color: #1876D1;
+  padding: 6px 10px;
+  
+}
+
+.active{
+  background-color: #1876D1;
+  border: 1px solid #1876D1;
+  text-decoration: none;
+  color: #fff;
+  padding: 6px 10px;
+  
+}

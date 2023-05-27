@@ -15,13 +15,23 @@ const TimeCalculator = () => {
   const [lowTimestamp, setLowTimestamp] = useState("");
   const [heightTEH, setHeightTEH] = useState("");
   const [lowTEH, setLowTEH] = useState("");
+  // const [eventInput, setEventInput] = useState({
+  //   firstEvent: "",
+  //   secondEvent: "",
+  // });
   const [TEHCheckbox, setTEHCheckbox] = useState(false);
+  // const [eventCheckbox, setEventCheckbox] = useState(false);
   const [timestampResult, setTimestampResult] = useState("");
   const [TEHResult, setTEHResult] = useState("");
   const [operation, setOperation] = useState("");
-  // const [TEHTime, setTEHTime] = useState({ hours: "", minutes: "" });
-
-  console.log(heightTEH, lowTEH);
+  const [info, setInfo] = useState("");
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setEventInput((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
   const calculateTime = () => {
     let newDate = DateTime.fromFormat(heightTimestamp, "dd-MMM-yyyy HH:mm:ss");
     let newDate2 = DateTime.fromFormat(lowTimestamp, "dd-MMM-yyyy HH:mm:ss");
@@ -34,33 +44,27 @@ const TimeCalculator = () => {
     );
 
     if (TEHCheckbox) {
-      // setTEHResult(heightTEH - lowTEH);
-
       let tehtime = heightTEH - lowTEH;
       let hours = Math.trunc(tehtime);
       let minutes = Math.trunc((tehtime % 1) * 60);
-      // setTEHTime({
-      //     minutes: Math.trunc((TEHResult % 1) * 60),
-      //     hours: Math.trunc(TEHResult),
-      // });
 
       setTEHResult(hours + "h " + minutes + "m");
 
-      //Operation section
-      if (diff.hours > hours) {
+      if (diff.hours === hours && diff.minutes === minutes) {
+        setOperation("=");
+        setInfo("Time stamp equals TEH");
+      } else if (
+        diff.hours > hours ||
+        (diff.hours === hours && diff.minutes > minutes)
+      ) {
         setOperation(">");
-      } else if (diff.hours < hours) {
+        setInfo("Time stamp more than TEH");
+      } else {
         setOperation("<");
-      } else if (diff.hours === hours) {
-        if (diff.minutes > minutes) {
-          setOperation(">");
-        } else if (diff.minutes < minutes) {
-          setOperation("<");
-        } else if (diff.minutes === minutes) {
-          setOperation("=");
-        }
+        setInfo("Time stamp less than TEH");
       }
     }
+    console.log(info);
   };
 
   return (
@@ -73,6 +77,36 @@ const TimeCalculator = () => {
           padding: "10px",
         }}
       >
+        {/*<Box*/}
+        {/*  sx={{*/}
+        {/*    display: eventCheckbox ? "flex" : "none",*/}
+        {/*    flexDirection: "column",*/}
+        {/*    justifyContent: "center",*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <TextField*/}
+        {/*    name={"firstEvent"}*/}
+        {/*    value={eventInput.firstEvent}*/}
+        {/*    type="text"*/}
+        {/*    id="outlined-number"*/}
+        {/*    label={"First event"}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    sx={{*/}
+        {/*      margin: "0 5px 7px 0",*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*  <TextField*/}
+        {/*    name={"secondEvent"}*/}
+        {/*    value={eventInput.secondEvent}*/}
+        {/*    type="text"*/}
+        {/*    id="outlined-number"*/}
+        {/*    label={"Second event"}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    sx={{*/}
+        {/*      marginRight: "5px",*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</Box>*/}
         <Box
           sx={{
             display: "flex",
@@ -86,7 +120,7 @@ const TimeCalculator = () => {
             label={"Height time"}
             onChange={(event) => setHeightTimestamp(event.target.value)}
             sx={{
-              margin: " 0 5px 7px 0",
+              margin: " 0 5px 7px 5px",
             }}
           />
           <TextField
@@ -95,7 +129,7 @@ const TimeCalculator = () => {
             label={"Low time"}
             onChange={(event) => setLowTimestamp(event.target.value)}
             sx={{
-              marginRight: "5px",
+              margin: " 0 5px 0 5px",
             }}
           />
         </Box>
@@ -188,6 +222,19 @@ const TimeCalculator = () => {
           }
           label="Show TEH"
         />
+        {/*<FormControlLabel*/}
+        {/*  control={*/}
+        {/*    <Checkbox*/}
+        {/*      name="calcFinalDate"*/}
+        {/*      checked={eventCheckbox}*/}
+        {/*      onChange={(event) => {*/}
+        {/*        setEventCheckbox(event.target.checked);*/}
+        {/*        setTEHCheckbox((e) => !e);*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  }*/}
+        {/*  label="Calc final data"*/}
+        {/*/>*/}
       </Box>
       <Box
         sx={{
@@ -196,7 +243,7 @@ const TimeCalculator = () => {
           justifyContent: "center",
         }}
       >
-        <Button variant={"outlined"} onClick={calculateTime}>
+        <Button variant={"contained"} color="success" onClick={calculateTime}>
           Submit
         </Button>
       </Box>

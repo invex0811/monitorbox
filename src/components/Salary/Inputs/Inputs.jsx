@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import { DateTime } from "luxon";
 import axios from "axios";
 import { AttachMoneyRounded, HorizontalRuleRounded } from "@mui/icons-material";
-import { useSpring, animated } from "@react-spring/web";
+import MenuForPushSalary from "../Inputs/MuneForPushSalary/MenuForPushSalary";
 
 const tax = 43;
 const Inputs = () => {
@@ -229,21 +229,19 @@ const Inputs = () => {
           <HorizontalRuleRounded sx={{ marginX: "10px" }} />
           {Number(moneyUAH).toFixed(2) + " UAH"}
         </Typography>
+        <MenuForPushSalary money={totalMoney} />
       </Box>
-      <ButtonGroup
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          color: "#fafafa",
-        }}
-        variant="outlined"
-        aria-label="outlined button group"
-      >
-        <Button sx={{ width: "110px" }} onClick={plusAllMoney}>
+      <ButtonGroup variant={"contained"} aria-label="contained button group">
+        <Button
+          sx={{ width: "50%" }}
+          onClick={plusAllMoney}
+          color={"success"}
+          key={"count"}
+        >
           Count
         </Button>
 
-        <Button sx={{ width: "110px" }} onClick={exchangeMoney}>
+        <Button sx={{ width: "50%" }} onClick={exchangeMoney} key={"exchange"}>
           Exchange
         </Button>
       </ButtonGroup>
