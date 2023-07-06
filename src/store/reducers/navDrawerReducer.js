@@ -34,7 +34,7 @@ const navDrawerState = {
       id: 4,
       to: "/speedCalculator",
       name: "Speed calculator",
-      src: "./images/clock.jpg",
+      src: "./images/speed.jpg",
       icon: faGaugeHigh,
     },
   ],

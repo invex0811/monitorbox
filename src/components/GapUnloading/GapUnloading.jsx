@@ -17,6 +17,12 @@ const imagesRef = [
   "./images/timeZoneImages/eastern.jpg",
   "./images/timeZoneImages/mountain.jpg",
 ];
+// const imagesRef = [
+//   "%PUBLIC_URL%/images/timeZoneImages/washington.jpg",
+//   "%PUBLIC_URL%/images/timeZoneImages/central.jpg",
+//   "%PUBLIC_URL%/images/timeZoneImages/eastern.jpg",
+//   "%PUBLIC_URL%/images/timeZoneImages/mountain.jpg",
+// ];
 
 const GapUnloading = (props) => {
   const [zone, setZone] = useState("Chicago");
@@ -70,14 +76,15 @@ const GapUnloading = (props) => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        {/* <img
-          src="https://images.unsplash.com/photo-1684486495977-f4aade9b0320?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
-          alt="Zone image"
-          loading="lazy"
-          style={{
-            height: "100vh",
-          }}
-        /> */}
+        {/*<img*/}
+        {/*  src="https://images.unsplash.com/photo-1684486495977-f4aade9b0320?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"*/}
+        {/*  alt="Zone image"*/}
+        {/*  loading="lazy"*/}
+        {/*  style={{*/}
+        {/*    height: "100%",*/}
+        {/*    width: "100%",*/}
+        {/*  }}*/}
+        {/*/>*/}
         <Box
           sx={{
             width: "500px",
@@ -99,8 +106,8 @@ const GapUnloading = (props) => {
                 setZone(event.target.value);
               }}
               sx={{
-                color: "#fff",
-                backgroundColor: "#16253B",
+                color: "#000",
+                backgroundColor: "#9eadff",
               }}
             >
               <MenuItem value={"Los_Angeles"}>Pacific</MenuItem>
@@ -121,8 +128,8 @@ const GapUnloading = (props) => {
               sx={{
                 padding: " 5px 10px",
                 borderRadius: "5px",
-                background: "#16253B",
-                color: "#fff",
+                background: "#9eadff",
+                color: "#000",
               }}
             >
               Time GAP: {timeGAP}
@@ -133,8 +140,8 @@ const GapUnloading = (props) => {
                 padding: " 5px 10px",
                 borderRadius: "5px",
                 margin: "10px 0",
-                background: "#16253B",
-                color: "#fff",
+                background: "#9eadff",
+                color: "#000",
               }}
             >
               Time unloading: {timeUnloading}
@@ -144,8 +151,8 @@ const GapUnloading = (props) => {
               sx={{
                 padding: " 5px 10px",
                 borderRadius: "5px",
-                background: "#16253B",
-                color: "#fff",
+                background: "#9eadff",
+                color: "#000",
               }}
             >
               Current time: {currentTime}

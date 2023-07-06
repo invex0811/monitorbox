@@ -6,32 +6,26 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
+  Alert,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
+import login from "../Login/Login";
 
 const TimeCalculator = () => {
   const [heightTimestamp, setHeightTimestamp] = useState("");
   const [lowTimestamp, setLowTimestamp] = useState("");
   const [heightTEH, setHeightTEH] = useState("");
   const [lowTEH, setLowTEH] = useState("");
-  // const [eventInput, setEventInput] = useState({
-  //   firstEvent: "",
-  //   secondEvent: "",
-  // });
+
   const [TEHCheckbox, setTEHCheckbox] = useState(false);
-  // const [eventCheckbox, setEventCheckbox] = useState(false);
+  const [calcProximityTEHCheckbox, setCalcProximityTEHCheckbox] =
+    useState(false);
   const [timestampResult, setTimestampResult] = useState("");
   const [TEHResult, setTEHResult] = useState("");
   const [operation, setOperation] = useState("");
   const [info, setInfo] = useState("");
-  // const handleInputChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setEventInput((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
+
   const calculateTime = () => {
     let newDate = DateTime.fromFormat(heightTimestamp, "dd-MMM-yyyy HH:mm:ss");
     let newDate2 = DateTime.fromFormat(lowTimestamp, "dd-MMM-yyyy HH:mm:ss");
@@ -43,6 +37,8 @@ const TimeCalculator = () => {
       diff.hours + "h " + diff.minutes + "m " + diff.seconds + "s "
     );
 
+    let operationTWO;
+
     if (TEHCheckbox) {
       let tehtime = heightTEH - lowTEH;
       let hours = Math.trunc(tehtime);
@@ -52,19 +48,46 @@ const TimeCalculator = () => {
 
       if (diff.hours === hours && diff.minutes === minutes) {
         setOperation("=");
-        setInfo("Time stamp equals TEH");
+        operationTWO = "=";
       } else if (
         diff.hours > hours ||
         (diff.hours === hours && diff.minutes > minutes)
       ) {
         setOperation(">");
-        setInfo("Time stamp more than TEH");
+        operationTWO = ">";
       } else {
         setOperation("<");
-        setInfo("Time stamp less than TEH");
+        operationTWO = "<";
       }
     }
-    console.log(info);
+    let proxyValue;
+    if (calcProximityTEHCheckbox) {
+      if (operationTWO === ">" || operationTWO === "<") {
+        if (heightTimestamp > lowTimestamp) {
+          proxyValue = heightTEH + diff.hours + diff.minutes / 60;
+        } else if (heightTimestamp < lowTimestamp) {
+          diff.hours = Math.abs(diff.hours);
+          proxyValue = heightTEH + diff.hours + diff.minutes / 60;
+        }
+        setInfo(
+          `
+             Ожидался TEH: ${proxyValue.toFixed(2)}         
+          `
+        );
+      } else if (operationTWO === "=") {
+        setInfo("Все верно 🫡");
+      }
+    }
+  };
+  const onCalcMode = () => {
+    setCalcProximityTEHCheckbox((p) => !calcProximityTEHCheckbox);
+    if (TEHCheckbox && calcProximityTEHCheckbox) {
+      setTEHCheckbox(false);
+    } else if (TEHCheckbox) {
+      setTEHCheckbox(true);
+    } else {
+      setTEHCheckbox((t) => !TEHCheckbox);
+    }
   };
 
   return (
@@ -77,36 +100,6 @@ const TimeCalculator = () => {
           padding: "10px",
         }}
       >
-        {/*<Box*/}
-        {/*  sx={{*/}
-        {/*    display: eventCheckbox ? "flex" : "none",*/}
-        {/*    flexDirection: "column",*/}
-        {/*    justifyContent: "center",*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <TextField*/}
-        {/*    name={"firstEvent"}*/}
-        {/*    value={eventInput.firstEvent}*/}
-        {/*    type="text"*/}
-        {/*    id="outlined-number"*/}
-        {/*    label={"First event"}*/}
-        {/*    onChange={handleInputChange}*/}
-        {/*    sx={{*/}
-        {/*      margin: "0 5px 7px 0",*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*  <TextField*/}
-        {/*    name={"secondEvent"}*/}
-        {/*    value={eventInput.secondEvent}*/}
-        {/*    type="text"*/}
-        {/*    id="outlined-number"*/}
-        {/*    label={"Second event"}*/}
-        {/*    onChange={handleInputChange}*/}
-        {/*    sx={{*/}
-        {/*      marginRight: "5px",*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*</Box>*/}
         <Box
           sx={{
             display: "flex",
@@ -117,7 +110,9 @@ const TimeCalculator = () => {
           <TextField
             type="text"
             id="outlined-number"
-            label={"Height time"}
+            label={
+              calcProximityTEHCheckbox ? "Original timestamp" : "Height time"
+            }
             onChange={(event) => setHeightTimestamp(event.target.value)}
             sx={{
               margin: " 0 5px 7px 5px",
@@ -126,7 +121,7 @@ const TimeCalculator = () => {
           <TextField
             type="text"
             id="outlined-number"
-            label={"Low time"}
+            label={calcProximityTEHCheckbox ? "After timestamp" : "Low time"}
             onChange={(event) => setLowTimestamp(event.target.value)}
             sx={{
               margin: " 0 5px 0 5px",
@@ -143,7 +138,7 @@ const TimeCalculator = () => {
           <TextField
             type="number"
             id="outlined-number"
-            label={"Height TEH"}
+            label={calcProximityTEHCheckbox ? "Original TEH" : "Height TEH"}
             onChange={(event) => setHeightTEH(Number(event.target.value))}
             sx={{
               margin: "0 0 7px 5px",
@@ -152,7 +147,7 @@ const TimeCalculator = () => {
           <TextField
             type="number"
             id="outlined-number"
-            label={"Low TEH"}
+            label={calcProximityTEHCheckbox ? "After TEH" : "Low TEH"}
             onChange={(event) => setLowTEH(Number(event.target.value))}
             sx={{
               marginLeft: "5px",
@@ -173,8 +168,7 @@ const TimeCalculator = () => {
             justifyContent: "center",
             alignItems: "center",
             margin: "10px 0",
-            background: "#16253B",
-            color: "#fff",
+            background: "#9eadff",
             borderRadius: "5px",
             padding: "5px 20px",
           }}
@@ -182,6 +176,7 @@ const TimeCalculator = () => {
           <Typography
             sx={{
               fontSize: "1.7rem",
+              color: "#000",
             }}
           >
             {timestampResult}
@@ -192,6 +187,7 @@ const TimeCalculator = () => {
               fontWeight: "700",
               fontSize: "1.5rem",
               display: TEHCheckbox ? "flex" : "none",
+              color: "#000",
             }}
           >
             {operation}
@@ -200,6 +196,7 @@ const TimeCalculator = () => {
             sx={{
               fontSize: "1.7rem",
               display: TEHCheckbox ? "flex" : "none",
+              color: "#000",
             }}
           >
             {TEHResult}
@@ -208,11 +205,24 @@ const TimeCalculator = () => {
       </Box>
       <Box
         sx={{
+          display:
+            lowTimestamp && heightTimestamp !== undefined ? "flex" : "none",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Alert severity={operation === "=" ? "success" : "warning"}>
+          {info}
+        </Alert>
+      </Box>
+      <Box
+        sx={{
           display: "flex",
           justifyContent: "center",
         }}
       >
         <FormControlLabel
+          disabled={calcProximityTEHCheckbox}
           control={
             <Checkbox
               name="showTEH"
@@ -222,19 +232,16 @@ const TimeCalculator = () => {
           }
           label="Show TEH"
         />
-        {/*<FormControlLabel*/}
-        {/*  control={*/}
-        {/*    <Checkbox*/}
-        {/*      name="calcFinalDate"*/}
-        {/*      checked={eventCheckbox}*/}
-        {/*      onChange={(event) => {*/}
-        {/*        setEventCheckbox(event.target.checked);*/}
-        {/*        setTEHCheckbox((e) => !e);*/}
-        {/*      }}*/}
-        {/*    />*/}
-        {/*  }*/}
-        {/*  label="Calc final data"*/}
-        {/*/>*/}
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="showTEH"
+              checked={calcProximityTEHCheckbox}
+              onChange={onCalcMode}
+            />
+          }
+          label="Calc TEH mode"
+        />
       </Box>
       <Box
         sx={{
@@ -243,7 +250,14 @@ const TimeCalculator = () => {
           justifyContent: "center",
         }}
       >
-        <Button variant={"contained"} color="success" onClick={calculateTime}>
+        <Button
+          sx={{
+            mr: "10px",
+          }}
+          variant={"contained"}
+          color="success"
+          onClick={calculateTime}
+        >
           Submit
         </Button>
       </Box>
