@@ -27,6 +27,7 @@ import { useDispatch } from "react-redux";
 const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [rate, setRate] = useState("");
   const [role, setRole] = useState("");
   const [photo, setPhoto] = useState("");
   const [show, setShow] = useState(false);
@@ -55,6 +56,7 @@ const Profile = () => {
 
           setName(docSnap.data().name);
           setEmail(getAuth().currentUser.email);
+          setRate(docSnap.data().rate);
           setRole(docSnap.data().role);
           setPhoto(docSnap.data().photoURL);
         };
@@ -76,6 +78,17 @@ const Profile = () => {
   const logout = () => {
     try {
       getAuth().signOut();
+      dispatch({
+        type: "SENT_ALERT",
+        severity: "success",
+        title: "Success",
+        value: "You logouted!",
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLOSE_ALERT",
+        });
+      }, 3000);
     } catch (e) {
       dispatch({
         type: "SENT_ALERT",
@@ -83,6 +96,11 @@ const Profile = () => {
         title: "Error",
         value: e,
       });
+      setTimeout(() => {
+        dispatch({
+          type: "CLOSE_ALERT",
+        });
+      }, 3000);
     }
   };
 
@@ -94,6 +112,7 @@ const Profile = () => {
     setReadOnly(true);
     setDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
       name: name,
+      rate: rate,
       role: role,
       photoURL: photo,
     }).then((e) => console.log(e));
@@ -221,6 +240,20 @@ const Profile = () => {
                 </TableCell>
                 <TableCell>
                   <Typography variant={"subtitle1"}>{email}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography variant={"subtitle2"}>Rate:</Typography>
+                </TableCell>
+                <TableCell>
+                  <input
+                    type={"number"}
+                    value={rate}
+                    readOnly={readOnly}
+                    style={{ border: readOnly ? "none" : "", fontSize: "1rem" }}
+                    onChange={(event) => setRate(event.target.value)}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>

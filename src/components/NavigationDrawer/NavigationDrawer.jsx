@@ -1,7 +1,7 @@
 import style from "./NavigationDrawer.module.css";
 import { Box, Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
-import { NavLink, redirect } from "react-router-dom";
+import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -25,12 +25,14 @@ const NavigationDrawer = (props) => {
       }
     });
   });
-
+  const forward = useNavigate();
   const redirectToLogin = async () => {
     await onAuthStateChanged(getAuth(), (user) => {
       console.log(user);
-      if (!user) {
-        return redirect("/login");
+      if (user) {
+        return forward("/tabsProfile/profile");
+      } else if (!user) {
+        return forward("/auth/login");
       }
     });
   };
@@ -110,6 +112,7 @@ const NavigationDrawer = (props) => {
             marginLeft: "10px",
             paddingTop: "10px",
           }}
+          onClick={redirectToLogin}
         >
           <Tooltip title={toggle ? "" : "Menu"} arrow placement={"right"}>
             <Box
@@ -154,49 +157,49 @@ const NavigationDrawer = (props) => {
             </Box>
           </Tooltip>
           {linksList}
-          <NavLink
-            style={{
-              textDecoration: "none",
-            }}
-            to={"/tabsProfile/profile"}
-          >
-            <Tooltip title={toggle ? "" : "Profile"} arrow placement={"right"}>
+          {/*<NavLink*/}
+          {/*  style={{*/}
+          {/*    textDecoration: "none",*/}
+          {/*  }}*/}
+          {/*  to={"/tabsProfile/profile"}*/}
+          {/*>*/}
+          <Tooltip title={toggle ? "" : "Profile"} arrow placement={"right"}>
+            <Box
+              // onClick={redirectToLogin}
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                padding: "10px",
+                margin: "30px 15px 15px 13px",
+              }}
+            >
               <Box
-                onClick={redirectToLogin}
                 sx={{
-                  cursor: "pointer",
+                  height: "25px",
+                  width: "25px",
                   display: "flex",
+                  justifyContent: "center",
                   alignItems: "center",
-                  padding: "10px",
-                  margin: "30px 15px 15px 13px",
                 }}
               >
+                <Avatar />
+              </Box>
+              <animated.div style={{ ...springs }}>
                 <Box
                   sx={{
-                    height: "25px",
-                    width: "25px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    color: "#7D859D",
+                    display: toggle ? "" : "none",
+                    paddingLeft: "10px",
+                    minWidth: "200px",
                   }}
                 >
-                  <Avatar />
+                  {userName}
                 </Box>
-                <animated.div style={{ ...springs }}>
-                  <Box
-                    sx={{
-                      color: "#7D859D",
-                      display: toggle ? "" : "none",
-                      paddingLeft: "10px",
-                      minWidth: "200px",
-                    }}
-                  >
-                    {userName}
-                  </Box>
-                </animated.div>
-              </Box>
-            </Tooltip>
-          </NavLink>
+              </animated.div>
+            </Box>
+          </Tooltip>
+          {/*</NavLink>*/}
         </Box>
       </animated.div>
     </Box>

@@ -1,34 +1,31 @@
+import LoginRegisterLayout from "../../../Layout/LoginRegisterLayout";
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
-import MainLayout from "../../Layout/MainLayout";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-
-  const authentication = () => {
-    signInWithEmailAndPassword(getAuth(), email, password)
+  const forward = useNavigate();
+  const auth = getAuth();
+  const sendPasswordEmail = () => {
+    sendPasswordResetEmail(auth, email)
       .then(() => {
         dispatch({
           type: "SENT_ALERT",
           severity: "success",
           title: "Success",
-          value: "Login successful",
+          value: "Email sent",
         });
         setTimeout(() => {
           dispatch({
             type: "CLOSE_ALERT",
           });
         }, 3000);
+        forward("/");
       })
       .catch((e) => {
         dispatch({
@@ -45,24 +42,14 @@ const Login = () => {
       });
   };
 
-  const forward = useNavigate();
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        forward("/");
-      }
-    });
-  });
   return (
-    <MainLayout>
+    <LoginRegisterLayout>
       <Box
         sx={{
           height: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "-50px",
         }}
       >
         <Card
@@ -75,43 +62,25 @@ const Login = () => {
             minWidth: "500px",
           }}
         >
-          <Typography variant={"h4"}>Login</Typography>
+          <Typography variant={"h4"}>Reset password</Typography>
           <TextField
-            sx={{ my: "10px" }}
+            sx={{ my: "10px", width: "25ch" }}
             variant={"outlined"}
             label={"Email"}
             onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            variant={"outlined"}
-            label={"Password"}
-            onChange={(event) => setPassword(event.target.value)}
           />
 
           <Button
             variant={"contained"}
             sx={{ mt: "10px" }}
-            onClick={authentication}
+            onClick={sendPasswordEmail}
           >
-            Login
+            Reset
           </Button>
-          <Box
-            sx={{
-              display: "flex",
-              mt: "10px",
-            }}
-          >
-            <Typography>You don`t have account?</Typography>
-            <NavLink to={"/register"} style={{ textDecoration: "none" }}>
-              <Typography variant={"subtitle2"} textTransform={"uppercase"}>
-                Register
-              </Typography>
-            </NavLink>
-          </Box>
         </Card>
       </Box>
-    </MainLayout>
+    </LoginRegisterLayout>
   );
 };
 
-export default Login;
+export default ResetPassword;

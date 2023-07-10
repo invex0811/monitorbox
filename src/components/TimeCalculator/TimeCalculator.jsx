@@ -8,9 +8,8 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DateTime } from "luxon";
-import login from "../Login/Login";
 
 const TimeCalculator = () => {
   const [heightTimestamp, setHeightTimestamp] = useState("");

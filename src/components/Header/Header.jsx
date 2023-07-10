@@ -43,11 +43,8 @@ const Header = () => {
       case "/tabsProfile/statistic":
         setTitleName("Statistic");
         break;
-      case "/login":
-        setTitleName("Login");
-        break;
-      case "/register":
-        setTitleName("Register");
+      case "/auth":
+        setTitleName("Auth");
         break;
 
       default:
@@ -92,7 +89,7 @@ const Header = () => {
             {titleName}
           </Typography>
           <NavLink
-            to={"/login"}
+            to={"/auth/login"}
             style={{ textDecoration: "none", display: show ? "block" : "none" }}
           >
             <Button>Login</Button>

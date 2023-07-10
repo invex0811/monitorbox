@@ -16,10 +16,12 @@ import { DateTime } from "luxon";
 import axios from "axios";
 import { AttachMoneyRounded, HorizontalRuleRounded } from "@mui/icons-material";
 import MenuForPushSalary from "../Inputs/MuneForPushSalary/MenuForPushSalary";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const tax = 43;
 const Inputs = () => {
-  const [days, setDays] = useState("");
+  const [days, setDays] = useState(null);
   const [time, setTime] = useState("");
   const [rate, setRate] = useState("");
   const [totalMoney, setTotalMoney] = useState("");
@@ -42,6 +44,48 @@ const Inputs = () => {
           "&json"
       )
       .then((response) => setDollarRate(response.data[24].rate));
+  }, []);
+
+  //Вставка ставки с профиля
+  useEffect(() => {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        const takeData = async () => {
+          const db = getFirestore();
+          const docRef = doc(db, "users", getAuth().currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          setRate(docSnap.data().rate);
+        };
+        takeData().then();
+      } else if (!user) {
+        setRate("");
+      }
+    });
+  }, []);
+
+  //Подсщет рабочих дней
+  useEffect(() => {
+    let nowDate = DateTime.now();
+    let nowYear = nowDate.get("year");
+    let nowMonth = nowDate.get("month");
+    const startDate = DateTime.fromObject({
+      year: nowYear,
+      month: nowMonth,
+      day: 1,
+    });
+    const endDate = startDate.endOf("month");
+
+    let workingDays = 0;
+
+    let currentDate = startDate;
+    while (currentDate <= endDate) {
+      if (currentDate.weekday !== 6 && currentDate.weekday !== 7) {
+        workingDays++;
+      }
+      currentDate = currentDate.plus({ days: 1 });
+    }
+
+    setDays(workingDays);
   }, []);
 
   const calculateSalary = () => {
@@ -76,8 +120,6 @@ const Inputs = () => {
     setMoneyUAH(dollarRate * totalMoney);
   };
 
-  // ANIMATION
-
   return (
     <Box
       sx={{
@@ -87,22 +129,30 @@ const Inputs = () => {
         padding: "10px",
       }}
     >
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Days</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Days"
-          value={days}
-          onChange={(event) => {
-            setDays(event.target.value);
-          }}
-        >
-          <MenuItem value={21}>21</MenuItem>
-          <MenuItem value={22}>22</MenuItem>
-          <MenuItem value={23}>23</MenuItem>
-        </Select>
-      </FormControl>
+      {/*<FormControl>*/}
+      {/*  <InputLabel id="demo-simple-select-label">Days</InputLabel>*/}
+      {/*  <Select*/}
+      {/*    labelId="demo-simple-select-label"*/}
+      {/*    id="demo-simple-select"*/}
+      {/*    label="Days"*/}
+      {/*    value={days}*/}
+      {/*    onChange={(event) => {*/}
+      {/*      setDays(event.target.value);*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <MenuItem value={21}>21</MenuItem>*/}
+      {/*    <MenuItem value={22}>22</MenuItem>*/}
+      {/*    <MenuItem value={23}>23</MenuItem>*/}
+      {/*  </Select>*/}
+      {/*</FormControl>*/}
+      <TextField
+        type="number"
+        id="outlined-number"
+        label={"Working days"}
+        value={days}
+        onChange={(event) => setDays(Number(event.target.value))}
+        sx={{ margin: "7px 0" }}
+      />
       <TextField
         type="number"
         id="outlined-number"
@@ -114,6 +164,7 @@ const Inputs = () => {
         type="number"
         id="outlined-number"
         label={"Rate"}
+        value={rate}
         onChange={(event) => setRate(Number(event.target.value))}
       />
       <TextField
