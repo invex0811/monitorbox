@@ -112,7 +112,6 @@ const NavigationDrawer = (props) => {
             marginLeft: "10px",
             paddingTop: "10px",
           }}
-          onClick={redirectToLogin}
         >
           <Tooltip title={toggle ? "" : "Menu"} arrow placement={"right"}>
             <Box
@@ -165,7 +164,7 @@ const NavigationDrawer = (props) => {
           {/*>*/}
           <Tooltip title={toggle ? "" : "Profile"} arrow placement={"right"}>
             <Box
-              // onClick={redirectToLogin}
+              onClick={redirectToLogin}
               sx={{
                 cursor: "pointer",
                 display: "flex",
