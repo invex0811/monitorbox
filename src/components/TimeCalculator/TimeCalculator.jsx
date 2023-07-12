@@ -24,6 +24,7 @@ const TimeCalculator = () => {
   const [TEHResult, setTEHResult] = useState("");
   const [operation, setOperation] = useState("");
   const [info, setInfo] = useState("");
+  const [alertType, setAlertType] = useState("warning");
 
   const calculateTime = () => {
     let newDate = DateTime.fromFormat(heightTimestamp, "dd-MMM-yyyy HH:mm:ss");
@@ -63,18 +64,28 @@ const TimeCalculator = () => {
     if (calcProximityTEHCheckbox) {
       if (operationTWO === ">" || operationTWO === "<") {
         if (heightTimestamp > lowTimestamp) {
-          proxyValue = heightTEH + diff.hours + diff.minutes / 60;
+          proxyValue = heightTEH - diff.hours + diff.minutes / 60;
+          proxyValue = proxyValue.toFixed(2);
+          setAlertType("warning");
         } else if (heightTimestamp < lowTimestamp) {
           diff.hours = Math.abs(diff.hours);
           proxyValue = heightTEH + diff.hours + diff.minutes / 60;
+          proxyValue = proxyValue.toFixed(2);
+          setAlertType("warning");
+        } else {
+          proxyValue = heightTEH;
+          proxyValue = proxyValue.toFixed(2);
+
+          setAlertType("warning");
         }
         setInfo(
           `
-             Ожидался TEH: ${proxyValue.toFixed(2)}         
+             Ожидался TEH: ${proxyValue}         
           `
         );
       } else if (operationTWO === "=") {
         setInfo("Все верно 🫡");
+        setAlertType("success");
       }
     }
   };
@@ -210,9 +221,7 @@ const TimeCalculator = () => {
           alignItems: "center",
         }}
       >
-        <Alert severity={operation === "=" ? "success" : "warning"}>
-          {info}
-        </Alert>
+        <Alert severity={alertType}>{info}</Alert>
       </Box>
       <Box
         sx={{
