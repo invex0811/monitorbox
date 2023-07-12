@@ -243,12 +243,12 @@ const TimeCalculator = () => {
         <FormControlLabel
           control={
             <Checkbox
-              name="showTEH"
+              name="dynamic TEH"
               checked={calcProximityTEHCheckbox}
               onChange={onCalcMode}
             />
           }
-          label="Calc TEH mode"
+          label="Dynamic TEH"
         />
       </Box>
       <Box

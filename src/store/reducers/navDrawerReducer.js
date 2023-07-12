@@ -3,6 +3,7 @@ import {
   faClock,
   faCalendar,
   faGaugeHigh,
+  faRoad,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DRAWER_TOGGLE = "DRAWER_TOGGLE";
@@ -36,6 +37,13 @@ const navDrawerState = {
       name: "Speed calculator",
       src: "./images/speed.jpg",
       icon: faGaugeHigh,
+    },
+    {
+      id: 5,
+      to: "/roadMap",
+      name: "Road map",
+      src: "./images/usaMap.jpg",
+      icon: faRoad,
     },
   ],
 };

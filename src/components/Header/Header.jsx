@@ -46,6 +46,12 @@ const Header = () => {
       case "/auth":
         setTitleName("Auth");
         break;
+      case "/speedCalculator":
+        setTitleName("Speed calculator");
+        break;
+      case "/roadMap":
+        setTitleName("Road map");
+        break;
 
       default:
         return;

@@ -13,6 +13,7 @@ import Statistic from "./components/TabsProfile/Statistic/Statistic";
 import SpeedCalculator from "./components/SpeedCalc/SpeedCalculator";
 import Auth from "./components/Auth/Auth.jsx";
 import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
+import RoadMap from "./components/RoadMap/RoadMap";
 
 function App(props) {
   return (
@@ -36,6 +37,7 @@ function App(props) {
           element={<SalaryStatistic />}
         />
         <Route path={"/speedCalculator"} element={<SpeedCalculator />} />
+        <Route path={"/roadMap"} element={<RoadMap />} />
       </Routes>
     </div>
   );
