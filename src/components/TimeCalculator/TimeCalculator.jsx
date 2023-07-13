@@ -61,28 +61,41 @@ const TimeCalculator = () => {
       }
     }
     let proxyValue;
+    const tolerance = 0.1;
+
     if (calcProximityTEHCheckbox) {
       if (operationTWO === ">" || operationTWO === "<") {
         if (heightTimestamp > lowTimestamp) {
-          proxyValue = heightTEH - diff.hours + diff.minutes / 60;
+          proxyValue = heightTEH - (diff.hours + diff.minutes / 60);
           proxyValue = proxyValue.toFixed(2);
-          setAlertType("warning");
+
+          if (Math.abs(proxyValue - lowTEH) <= tolerance) {
+            setAlertType("info");
+            setInfo(`Ожидался TEH: ${proxyValue}  "В зоне погрешности"`);
+          } else {
+            setAlertType("warning");
+            setInfo(`Ожидался TEH: ${proxyValue}`);
+          }
         } else if (heightTimestamp < lowTimestamp) {
           diff.hours = Math.abs(diff.hours);
-          proxyValue = heightTEH + diff.hours + diff.minutes / 60;
+          diff.minutes = Math.abs(diff.minutes);
+          proxyValue = heightTEH + (diff.hours + diff.minutes / 60);
           proxyValue = proxyValue.toFixed(2);
-          setAlertType("warning");
+
+          if (Math.abs(proxyValue - lowTEH) <= tolerance) {
+            setAlertType("info");
+            setInfo(`Ожидался TEH: ${proxyValue}  "В зоне погрешности"`);
+          } else {
+            setAlertType("warning");
+            setInfo(`Ожидался TEH: ${proxyValue}`);
+          }
         } else {
           proxyValue = heightTEH;
           proxyValue = proxyValue.toFixed(2);
+          setInfo(`Ожидался TEH: ${proxyValue}`);
 
           setAlertType("warning");
         }
-        setInfo(
-          `
-             Ожидался TEH: ${proxyValue}         
-          `
-        );
       } else if (operationTWO === "=") {
         setInfo("Все верно 🫡");
         setAlertType("success");
