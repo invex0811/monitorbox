@@ -1,28 +1,14 @@
-import MainLayout from "../../Layout/MainLayout";
-import {
-  Box,
-  CardMedia,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
+import LayoutGapUnloading from "../../Layout/LayoutGap&Unloading";
 
 const imagesRef = [
-  "./images/timeZoneImages/washington.jpg",
-  "./images/timeZoneImages/central.jpg",
-  "./images/timeZoneImages/eastern.jpg",
-  "./images/timeZoneImages/mountain.jpg",
+  "./images/timeZoneTLImages/washington.jpg",
+  "./images/timeZoneTLImages/central.jpg",
+  "./images/timeZoneTLImages/eastern.jpg",
+  "./images/timeZoneTLImages/mountain.jpg",
 ];
-// const imagesRef = [
-//   "%PUBLIC_URL%/images/timeZoneImages/washington.jpg",
-//   "%PUBLIC_URL%/images/timeZoneImages/central.jpg",
-//   "%PUBLIC_URL%/images/timeZoneImages/eastern.jpg",
-//   "%PUBLIC_URL%/images/timeZoneImages/mountain.jpg",
-// ];
 
 const GapUnloading = (props) => {
   const [zone, setZone] = useState("Chicago");
@@ -61,7 +47,7 @@ const GapUnloading = (props) => {
   }, [zone]);
 
   return (
-    <MainLayout>
+    <LayoutGapUnloading>
       <Box
         sx={{
           display: "flex",
@@ -70,29 +56,31 @@ const GapUnloading = (props) => {
           height: "100%",
           width: "100%",
           position: "relative",
-          backgroundImage: `url(${imagesZone})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          // backgroundImage: `url(${imagesZone})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
+          // backgroundRepeat: "no-repeat",
         }}
       >
-        {/*<img*/}
-        {/*  src="https://images.unsplash.com/photo-1684486495977-f4aade9b0320?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"*/}
-        {/*  alt="Zone image"*/}
-        {/*  loading="lazy"*/}
-        {/*  style={{*/}
-        {/*    height: "100%",*/}
-        {/*    width: "100%",*/}
-        {/*  }}*/}
-        {/*/>*/}
+        <img
+          src={imagesZone}
+          alt="Zone image"
+          loading="lazy"
+          style={{
+            height: "100%",
+            width: "100%",
+            position: "relative",
+            zIndex: "-100",
+          }}
+        />
         <Box
           sx={{
             width: "500px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            height: "100%",
             position: "absolute",
+            paddingTop: "10px",
           }}
         >
           <FormControl sx={{ width: "250px", marginBottom: "20px" }}>
@@ -111,8 +99,8 @@ const GapUnloading = (props) => {
               }}
             >
               <MenuItem value={"Los_Angeles"}>Pacific</MenuItem>
-              <MenuItem value={"Chicago"}>Central</MenuItem>
               <MenuItem value={"Denver"}>Mountain</MenuItem>
+              <MenuItem value={"Chicago"}>Central</MenuItem>
               <MenuItem value={"Detroit"}>Eastern</MenuItem>
             </Select>
           </FormControl>
@@ -160,7 +148,7 @@ const GapUnloading = (props) => {
           </Box>
         </Box>
       </Box>
-    </MainLayout>
+    </LayoutGapUnloading>
   );
 };
 

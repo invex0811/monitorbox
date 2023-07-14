@@ -101,6 +101,7 @@ const NavigationDrawer = (props) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: "999",
       }}
     >
       <animated.div style={{ ...animateOpenBar }}>

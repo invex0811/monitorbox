@@ -5,11 +5,10 @@ import {
   Slide,
   AppBar,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import React from "react";
 import { animated, useSpring } from "@react-spring/web";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
