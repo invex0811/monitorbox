@@ -13,6 +13,10 @@ const Header = () => {
 
   const [titleName, setTitleName] = useState("");
   const [show, setShow] = useState(true);
+  const [title, setTitle] = useState("Home");
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), (user) => {
@@ -27,30 +31,40 @@ const Header = () => {
     switch (location.pathname) {
       case "/":
         setTitleName("Home");
+        setTitle("Home");
         break;
       case "/salary":
         setTitleName("Salary");
+        setTitle("Salary");
         break;
       case "/gap&Unloading":
         setTitleName("Gap&Unloading");
+        setTitle("Gap&Unloading");
         break;
       case "/timeCalculator":
         setTitleName("Time calculator");
+        setTitle("Time calculator");
         break;
       case "/tabsProfile/profile":
         setTitleName("Profile");
+        setTitle("Profile");
         break;
       case "/tabsProfile/statistic":
         setTitleName("Statistic");
+        setTitle("Statistic");
         break;
       case "/auth":
         setTitleName("Auth");
+        setTitle("Auth");
         break;
       case "/speedCalculator":
         setTitleName("Speed calculator");
+        setTitle("Speed calculator");
         break;
       case "/roadMap":
         setTitleName("Road map");
+        setTitle("Road map");
+
         break;
 
       default:

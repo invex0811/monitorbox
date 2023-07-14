@@ -8,8 +8,9 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
+import { useLocation } from "react-router-dom";
 
 const TimeCalculator = () => {
   const [heightTimestamp, setHeightTimestamp] = useState("");
@@ -25,6 +26,11 @@ const TimeCalculator = () => {
   const [operation, setOperation] = useState("");
   const [info, setInfo] = useState("");
   const [alertType, setAlertType] = useState("warning");
+  const [title, setTitle] = useState("Time calculator");
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   const calculateTime = () => {
     let newDate = DateTime.fromFormat(heightTimestamp, "dd-MMM-yyyy HH:mm:ss");
@@ -93,12 +99,13 @@ const TimeCalculator = () => {
           proxyValue = heightTEH;
           proxyValue = proxyValue.toFixed(2);
           setInfo(`Ожидался TEH: ${proxyValue}`);
-
           setAlertType("warning");
         }
+        setTitle(`TEH: ${proxyValue}`);
       } else if (operationTWO === "=") {
         setInfo("Все верно 🫡");
         setAlertType("success");
+        setTitle("Все верно 🫡");
       }
     }
   };
