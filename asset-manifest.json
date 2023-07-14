@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/monitorbox/static/css/main.425432ea.css",
-    "main.js": "/monitorbox/static/js/main.de1335cc.js",
+    "main.js": "/monitorbox/static/js/main.a910291d.js",
     "index.html": "/monitorbox/index.html",
     "main.425432ea.css.map": "/monitorbox/static/css/main.425432ea.css.map",
-    "main.de1335cc.js.map": "/monitorbox/static/js/main.de1335cc.js.map"
+    "main.a910291d.js.map": "/monitorbox/static/js/main.a910291d.js.map"
   },
   "entrypoints": [
     "static/css/main.425432ea.css",
-    "static/js/main.de1335cc.js"
+    "static/js/main.a910291d.js"
   ]
 }
