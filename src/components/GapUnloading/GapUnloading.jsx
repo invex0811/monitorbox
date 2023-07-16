@@ -16,6 +16,11 @@ const GapUnloading = (props) => {
   const [timeUnloading, setTimeUnloading] = useState("");
   const [timeGAP, setTimeGAP] = useState("");
   const [imagesZone, setImagesZone] = useState(imagesRef[1]);
+  const [title, setTitle] = useState("GapUnloading");
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   useEffect(() => {
     const time = setInterval(() => {
@@ -39,9 +44,21 @@ const GapUnloading = (props) => {
           break;
       }
 
+      let timeUnloadingDay = timeZone.minus({ days: 7 });
+      let timeUnloadingDay2 = timeZone.minus({ days: 8 });
+
       setCurrentTime(timeZone.toFormat("FF"));
-      setTimeUnloading(timeZone.minus({ days: 8, hours: 12 }).toFormat("FF"));
+      setTimeUnloading(
+        `${timeUnloadingDay.toFormat(
+          "DD"
+        )} и переходящий ивент с ${timeUnloadingDay2.toFormat(
+          "dd MMM"
+        )} на ${timeUnloadingDay.toFormat("dd MMM")}`
+      );
       setTimeGAP(timeZone.minus({ days: 9 }).toFormat("FF"));
+
+      //Title change
+      setTitle(`Unloading: ${timeUnloadingDay.toFormat("DD")}`);
     });
     return () => clearInterval(time);
   }, [zone]);
@@ -56,10 +73,6 @@ const GapUnloading = (props) => {
           height: "100%",
           width: "100%",
           position: "relative",
-          // backgroundImage: `url(${imagesZone})`,
-          // backgroundSize: "cover",
-          // backgroundPosition: "center",
-          // backgroundRepeat: "no-repeat",
         }}
       >
         <img
@@ -84,11 +97,9 @@ const GapUnloading = (props) => {
           }}
         >
           <FormControl sx={{ width: "250px", marginBottom: "20px" }}>
-            {/* <InputLabel id="demo-simple-select-label">Time zone</InputLabel> */}
             <Select
               labelId="demo-simple-select"
               id="demo-simple-select"
-              // label="Time zone"
               value={zone}
               onChange={(event) => {
                 setZone(event.target.value);
@@ -130,6 +141,7 @@ const GapUnloading = (props) => {
                 margin: "10px 0",
                 background: "#9eadff",
                 color: "#000",
+                textAlign: "center",
               }}
             >
               Time unloading: {timeUnloading}
