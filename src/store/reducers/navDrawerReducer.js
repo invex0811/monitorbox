@@ -52,6 +52,7 @@ export const navDrawerReducer = (state = navDrawerState, action) => {
   switch (action.type) {
     case DRAWER_TOGGLE:
       return { ...state, openToggle: action.payload };
+
     default:
       return state;
   }
