@@ -7,10 +7,16 @@ import {
   Checkbox,
   Typography,
   Alert,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { type } from "@testing-library/user-event/dist/type";
 
 const TimeCalculator = () => {
   const [heightTimestamp, setHeightTimestamp] = useState("");
@@ -27,6 +33,9 @@ const TimeCalculator = () => {
   const [info, setInfo] = useState("");
   const [alertType, setAlertType] = useState("warning");
   const [title, setTitle] = useState("Time calculator");
+  const [copyResultProxy, setCopyResultProxy] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = title;
@@ -102,6 +111,7 @@ const TimeCalculator = () => {
           setAlertType("warning");
         }
         setTitle(`TEH: ${proxyValue}`);
+        setCopyResultProxy(proxyValue);
       } else if (operationTWO === "=") {
         setInfo("Все верно 🫡");
         setAlertType("success");
@@ -118,6 +128,37 @@ const TimeCalculator = () => {
     } else {
       setTEHCheckbox((t) => !TEHCheckbox);
     }
+  };
+
+  const copyResult = () => {
+    navigator.clipboard
+      .writeText(copyResultProxy)
+      .then(() => {
+        dispatch({
+          type: "SENT_ALERT",
+          severity: "success",
+          title: "Success",
+          value: "Login successful",
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLOSE_ALERT",
+          });
+        }, 3000);
+      })
+      .catch((e) => {
+        dispatch({
+          type: "SENT_ALERT",
+          severity: "error",
+          title: e.code,
+          value: e.message,
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLOSE_ALERT",
+          });
+        }, 3000);
+      });
   };
 
   return (
@@ -242,6 +283,11 @@ const TimeCalculator = () => {
         }}
       >
         <Alert severity={alertType}>{info}</Alert>
+        <Tooltip title={"Copy result"} placement={"right"} arrow={true}>
+          <IconButton color={"info"} onClick={copyResult}>
+            <FontAwesomeIcon icon={faCopy} />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box
         sx={{
