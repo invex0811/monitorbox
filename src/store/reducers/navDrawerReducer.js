@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DRAWER_TOGGLE = "DRAWER_TOGGLE";
+const THEME_TOGGLE = "THEME_TOGGLE";
 
 const navDrawerState = {
   navigationLinkItem: [

@@ -1,18 +1,25 @@
 import style from "./NavigationDrawer.module.css";
-import { Box, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
-import { NavLink, redirect, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { animated, useSpring } from "@react-spring/web";
 import Avatar from "../AvatarProfile/AvatarProfile";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, onValue, ref } from "firebase/database";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { ColorModeContext } from "../../theme";
 
 const NavigationDrawer = (props) => {
   const [toggle, setToggle] = useState(false);
   const [userName, setUserName] = useState("");
+
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+
   useEffect(() => {
     onAuthStateChanged(getAuth(), (user) => {
       if (user) {
@@ -61,6 +68,14 @@ const NavigationDrawer = (props) => {
     });
   };
 
+  const changeTheme = () => {
+    colorMode.toggleColorMode();
+    localStorage.setItem(
+      "theme",
+      theme.palette.mode === "light" ? "dark" : "light"
+    );
+  };
+
   const linksList = links.map((item) => (
     <NavLink className={active} key={item.id} to={item.to}>
       <Tooltip title={toggle ? "" : item.name} arrow placement={"right"}>
@@ -101,13 +116,13 @@ const NavigationDrawer = (props) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: "999",
+        zIndex: "900",
       }}
     >
       <animated.div style={{ ...animateOpenBar }}>
         <Box
+          bgcolor={"background.paper"}
           sx={{
-            background: "#16253B",
             height: "100%",
             borderRadius: "20px",
             marginLeft: "10px",
@@ -157,12 +172,6 @@ const NavigationDrawer = (props) => {
             </Box>
           </Tooltip>
           {linksList}
-          {/*<NavLink*/}
-          {/*  style={{*/}
-          {/*    textDecoration: "none",*/}
-          {/*  }}*/}
-          {/*  to={"/tabsProfile/profile"}*/}
-          {/*>*/}
           <Tooltip title={toggle ? "" : "Profile"} arrow placement={"right"}>
             <Box
               onClick={redirectToLogin}
@@ -199,7 +208,23 @@ const NavigationDrawer = (props) => {
               </animated.div>
             </Box>
           </Tooltip>
-          {/*</NavLink>*/}
+          <Tooltip
+            title={`Enable ${
+              theme.palette.mode === "dark" ? "light theme" : "dark theme"
+            }`}
+            arrow
+            placement={"right"}
+          >
+            <Box sx={{ mb: "30px", ml: "15px" }}>
+              <IconButton onClick={changeTheme} color="inherit">
+                {theme.palette.mode === "dark" ? (
+                  <Brightness7Icon />
+                ) : (
+                  <Brightness4Icon />
+                )}
+              </IconButton>
+            </Box>
+          </Tooltip>
         </Box>
       </animated.div>
     </Box>

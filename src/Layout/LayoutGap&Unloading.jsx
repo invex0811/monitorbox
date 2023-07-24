@@ -10,6 +10,7 @@ const MainLayout = (props) => {
       <Header />
       <NavigationDrawer />
       <Container
+        bgcolor={"background.default"}
         sx={{ height: "100vh", padding: "60px 0px 0px 0px" }}
         maxWidth={false}
         disableGutters={true}

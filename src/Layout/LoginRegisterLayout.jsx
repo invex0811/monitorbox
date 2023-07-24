@@ -5,6 +5,8 @@ import {
   Slide,
   AppBar,
   Toolbar,
+  Box,
+  useTheme,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -29,17 +31,27 @@ const LoginRegisterLayout = (otherProps) => {
     });
   };
 
+  const theme = useTheme();
+
   const alertData = useSelector((state) => state.alertReducer);
   return (
     <>
       <section>
-        <AppBar sx={{ bgcolor: "white" }}>
+        <Box
+          bgcolor={"background.paper"}
+          sx={{
+            position: "fixed",
+            width: "100%",
+            boxShadow:
+              "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)",
+          }}
+        >
           <Toolbar sx={{ display: "flex", alignItems: "center" }}>
             <NavLink
               to={"/"}
               style={{
                 textDecoration: "none",
-                color: "#16253B",
+                color: theme.palette.text.primary,
                 margin: "0 20px 0 10px",
               }}
               onMouseEnter={springHome}
@@ -49,9 +61,12 @@ const LoginRegisterLayout = (otherProps) => {
               </animated.div>
             </NavLink>
           </Toolbar>
-        </AppBar>
+        </Box>
       </section>
-      <Container sx={{ height: "100vh", paddingTop: "70px" }}>
+      <Container
+        bgcolor={"background.default"}
+        sx={{ height: "100vh", paddingTop: "70px" }}
+      >
         {otherProps.children}
       </Container>
       <Slide direction="left" in={alertData.alert.show}>

@@ -10,7 +10,10 @@ const MainLayout = (props) => {
     <>
       <Header />
       <NavigationDrawer />
-      <Container sx={{ height: "100vh", paddingTop: "70px" }}>
+      <Container
+        bgcolor={"background.default"}
+        sx={{ height: "100vh", paddingTop: "70px" }}
+      >
         {props.children}
       </Container>
       <Slide direction="left" in={alertData.alert.show}>
@@ -32,7 +35,7 @@ const MainLayout = (props) => {
         variant={"caption"}
         sx={{ position: "absolute", bottom: "0", right: "0" }}
       >
-        Version: 1.0.2
+        Version: 2.0.0
       </Typography>
     </>
   );

@@ -138,7 +138,7 @@ const TimeCalculator = () => {
           type: "SENT_ALERT",
           severity: "success",
           title: "Success",
-          value: "Login successful",
+          value: "Values copied",
         });
         setTimeout(() => {
           dispatch({
@@ -234,12 +234,12 @@ const TimeCalculator = () => {
         }}
       >
         <Box
+          bgcolor={"primary.main"}
           sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             margin: "10px 0",
-            background: "#9eadff",
             borderRadius: "5px",
             padding: "5px 20px",
           }}

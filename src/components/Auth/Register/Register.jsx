@@ -100,7 +100,12 @@ const Register = () => {
         >
           <Typography>You have account?</Typography>
           <NavLink to={"/auth/login"} style={{ textDecoration: "none" }}>
-            <Typography variant={"subtitle2"} textTransform={"uppercase"}>
+            <Typography
+              color={"primary"}
+              variant={"subtitle2"}
+              textTransform={"uppercase"}
+              sx={{ textDecoration: "underline" }}
+            >
               Login
             </Typography>
           </NavLink>

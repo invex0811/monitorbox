@@ -1,6 +1,4 @@
-//import style from './Header.module.css';
-
-import { AppBar, Button, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Toolbar, Typography, useTheme } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -88,15 +86,26 @@ const Header = () => {
     });
   };
 
+  const theme = useTheme();
+
   return (
     <section>
-      <AppBar sx={{ bgcolor: "white" }}>
+      <Box
+        bgcolor={"background.paper"}
+        sx={{
+          position: "fixed",
+          zIndex: "999",
+          width: "100%",
+          boxShadow:
+            "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)",
+        }}
+      >
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
           <NavLink
             to={"/"}
             style={{
+              color: theme.palette.text.primary,
               textDecoration: "none",
-              color: "#16253B",
               margin: "0 20px 0 10px",
             }}
             onMouseEnter={springHome}
@@ -105,7 +114,7 @@ const Header = () => {
               <FontAwesomeIcon icon={faHome} style={{ fontSize: "25px" }} />
             </animated.div>
           </NavLink>
-          <Typography variant={"h5"} color={"black"} sx={{ flexGrow: "1" }}>
+          <Typography variant={"h5"} color={"text"} sx={{ flexGrow: "1" }}>
             {titleName}
           </Typography>
           <NavLink
@@ -115,7 +124,7 @@ const Header = () => {
             <Button>Login</Button>
           </NavLink>
         </Toolbar>
-      </AppBar>
+      </Box>
     </section>
   );
 };

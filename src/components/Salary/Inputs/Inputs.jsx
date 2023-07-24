@@ -3,11 +3,7 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -123,28 +119,12 @@ const Inputs = () => {
   return (
     <Box
       sx={{
-        width: "240px",
+        width: "260px",
         display: "flex",
         flexDirection: "column",
         padding: "10px",
       }}
     >
-      {/*<FormControl>*/}
-      {/*  <InputLabel id="demo-simple-select-label">Days</InputLabel>*/}
-      {/*  <Select*/}
-      {/*    labelId="demo-simple-select-label"*/}
-      {/*    id="demo-simple-select"*/}
-      {/*    label="Days"*/}
-      {/*    value={days}*/}
-      {/*    onChange={(event) => {*/}
-      {/*      setDays(event.target.value);*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <MenuItem value={21}>21</MenuItem>*/}
-      {/*    <MenuItem value={22}>22</MenuItem>*/}
-      {/*    <MenuItem value={23}>23</MenuItem>*/}
-      {/*  </Select>*/}
-      {/*</FormControl>*/}
       <TextField
         type="number"
         id="outlined-number"

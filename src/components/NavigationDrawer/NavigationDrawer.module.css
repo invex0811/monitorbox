@@ -13,7 +13,7 @@
     display: block;
     text-decoration: none;
     color: #fff;
-    background: #3cc9f4;
+    background: linear-gradient(180deg, #679CF6 0%, #4072EE 100%);
     border-radius: 10px;
     padding: 10px;
     margin: 15px;

@@ -5,13 +5,10 @@ import { useSpring, animated } from "@react-spring/web";
 import { useState } from "react";
 
 const Tabs = ({ to, image, title }) => {
-  // const [style, api] = useSpring(() => ({
-  //   from: { backgroundColor: "#fff", color: "#000" },
-  // }));
   const [hover, setHover] = useState(false);
   const hoverTab = useSpring({
-    backgroundColor: hover ? "#16253B" : "#fff",
-    color: hover ? "#fff" : "#000",
+    backgroundColor: hover ? "#679CF6" : "#292E33",
+    color: hover ? "#000" : "#fff",
   });
   return (
     <Box sx={{ margin: "10px" }}>

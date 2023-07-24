@@ -14,32 +14,40 @@ import SpeedCalculator from "./components/SpeedCalc/SpeedCalculator";
 import Auth from "./components/Auth/Auth.jsx";
 import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
 import RoadMap from "./components/RoadMap/RoadMap";
-
+import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
+import { ColorModeContext, useMode } from "./theme";
 function App(props) {
+  const [theme, colorMode] = useMode();
+
   return (
-    <div className="App">
-      <Routes>
-        <Route path={"/"} element={<Home />} />
-        <Route path={"/salary"} element={<Salary />} />
-        <Route path={"/gap&unloading"} element={<GapUnloading />} />
-        <Route path={"/timeCalculator"} element={<TimeCalculator />} />
-        <Route path={"/auth"} element={<Auth />}>
-          <Route path={"login"} element={<Login />} />
-          <Route path={"register"} element={<Register />} />
-        </Route>
-        <Route path={"/resetPassword"} element={<ResetPassword />} />
-        <Route path={"/tabsProfile"} element={<TabsProfile />}>
-          <Route path={"profile"} element={<Profile />} />
-          <Route path={"statistic"} element={<Statistic />} />
-        </Route>
-        <Route
-          path={"/tabsProfile/statistic/salaryStatistic"}
-          element={<SalaryStatistic />}
-        />
-        <Route path={"/speedCalculator"} element={<SpeedCalculator />} />
-        <Route path={"/roadMap"} element={<RoadMap />} />
-      </Routes>
-    </div>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="App">
+          <Routes>
+            <Route path={"/"} element={<Home />} />
+            <Route path={"/salary"} element={<Salary />} />
+            <Route path={"/gap&unloading"} element={<GapUnloading />} />
+            <Route path={"/timeCalculator"} element={<TimeCalculator />} />
+            <Route path={"/auth"} element={<Auth />}>
+              <Route path={"login"} element={<Login />} />
+              <Route path={"register"} element={<Register />} />
+            </Route>
+            <Route path={"/resetPassword"} element={<ResetPassword />} />
+            <Route path={"/tabsProfile"} element={<TabsProfile />}>
+              <Route path={"profile"} element={<Profile />} />
+              <Route path={"statistic"} element={<Statistic />} />
+            </Route>
+            <Route
+              path={"/tabsProfile/statistic/salaryStatistic"}
+              element={<SalaryStatistic />}
+            />
+            <Route path={"/speedCalculator"} element={<SpeedCalculator />} />
+            <Route path={"/roadMap"} element={<RoadMap />} />
+          </Routes>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

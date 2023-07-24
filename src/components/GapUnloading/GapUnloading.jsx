@@ -1,4 +1,11 @@
-import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  MenuItem,
+  Select,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import LayoutGapUnloading from "../../Layout/LayoutGap&Unloading";
@@ -63,6 +70,8 @@ const GapUnloading = (props) => {
     return () => clearInterval(time);
   }, [zone]);
 
+  const theme = useTheme();
+
   return (
     <LayoutGapUnloading>
       <Box
@@ -105,8 +114,7 @@ const GapUnloading = (props) => {
                 setZone(event.target.value);
               }}
               sx={{
-                color: "#000",
-                backgroundColor: "#9eadff",
+                bgcolor: theme.palette.background.paper,
               }}
             >
               <MenuItem value={"Los_Angeles"}>Pacific</MenuItem>
@@ -121,26 +129,25 @@ const GapUnloading = (props) => {
             alignItems={"center"}
             justifyContent={"center"}
             position={"relative"}
+            color={"text.primary"}
           >
             <Typography
               variant="h5"
+              bgcolor={"background.paper"}
               sx={{
                 padding: " 5px 10px",
                 borderRadius: "5px",
-                background: "#9eadff",
-                color: "#000",
               }}
             >
               Time GAP: {timeGAP}
             </Typography>
             <Typography
               variant="h5"
+              bgcolor={"background.paper"}
               sx={{
                 padding: " 5px 10px",
                 borderRadius: "5px",
                 margin: "10px 0",
-                background: "#9eadff",
-                color: "#000",
                 textAlign: "center",
               }}
             >
@@ -148,11 +155,10 @@ const GapUnloading = (props) => {
             </Typography>
             <Typography
               variant="h6"
+              bgcolor={"background.paper"}
               sx={{
                 padding: " 5px 10px",
                 borderRadius: "5px",
-                background: "#9eadff",
-                color: "#000",
               }}
             >
               Current time: {currentTime}
