@@ -10,12 +10,10 @@ import {
   TableContainer,
   TableRow,
   TextField,
-  Typography,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { DateTime } from "luxon";
 import axios from "axios";
-import { AttachMoneyRounded, HorizontalRuleRounded } from "@mui/icons-material";
 import MenuForPushSalary from "../Inputs/MuneForPushSalary/MenuForPushSalary";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
@@ -304,7 +302,7 @@ const Inputs = () => {
         <TableContainer>
           <Table sx={{ width: "100%" }}>
             <TableBody>
-              <TableRow>
+              <TableRow sx={{ display: totalMoney > 0 ? "" : "none" }}>
                 <TableCell>USD: </TableCell>
                 <TableCell>
                   <Box display={"flex"} alignItems={"center"}>
