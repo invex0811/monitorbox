@@ -4,6 +4,11 @@ import {
   ButtonGroup,
   Checkbox,
   FormControlLabel,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -25,11 +30,13 @@ const Inputs = () => {
   const [cashBonus, setCashBonus] = useState("");
   const [dollarRate, setDollarRate] = useState("");
   const [moneyUAH, setMoneyUAH] = useState("");
+  const [fivePercentTax, setFivePercentTax] = useState("");
 
   const [taxCheckbox, setTaxCheckbox] = useState(true);
   const [weekendCheckbox, setWeekendCheckbox] = useState(false);
   const [cashBonusCheckbox, setCashBonusCheckbox] = useState(false);
   const [dollarRateCheckbox, setDollarRateCheckbox] = useState(false);
+  const [fivePercentTaxCheckbox, setFivePercentTaxCheckbox] = useState(false);
 
   useEffect(() => {
     let dateForExchange = DateTime.local().toFormat("kkkk" + "LL" + "dd");
@@ -84,6 +91,14 @@ const Inputs = () => {
     setDays(workingDays);
   }, []);
 
+  //Подсщет
+  useEffect(() => {
+    if (fivePercentTaxCheckbox) {
+      exchangeMoney();
+      setFivePercentTax((moneyUAH / 100) * 5);
+    }
+  }, [fivePercentTaxCheckbox, moneyUAH]);
+
   const calculateSalary = () => {
     const daysTime = days * 8;
     const overTime = time - daysTime;
@@ -119,73 +134,80 @@ const Inputs = () => {
   return (
     <Box
       sx={{
-        width: "260px",
         display: "flex",
         flexDirection: "column",
         padding: "10px",
       }}
     >
-      <TextField
-        type="number"
-        id="outlined-number"
-        label={"Working days"}
-        value={days}
-        onChange={(event) => setDays(Number(event.target.value))}
-        sx={{ margin: "7px 0" }}
-      />
-      <TextField
-        type="number"
-        id="outlined-number"
-        label={"Time"}
-        onChange={(event) => setTime(Number(event.target.value))}
-        sx={{ margin: "7px 0" }}
-      />
-      <TextField
-        type="number"
-        id="outlined-number"
-        label={"Rate"}
-        value={rate}
-        onChange={(event) => setRate(Number(event.target.value))}
-      />
-      <TextField
-        sx={{
-          display: `${weekendCheckbox ? "" : "none"}`,
-          marginTop: "7px",
-        }}
-        type={"number"}
-        id="outlined-number"
-        label={"Weekend"}
-        onChange={(event) => {
-          setWeekend(Number(event.target.value * 8));
-        }}
-      />
-      <TextField
-        sx={{
-          display: `${cashBonusCheckbox ? "" : "none"}`,
-          marginTop: "7px",
-        }}
-        type={"number"}
-        id="outlined-number"
-        label={"Cash bonus"}
-        onChange={(event) => {
-          setCashBonus(Number(event.target.value));
-        }}
-      />
-      <TextField
-        sx={{
-          display: `${dollarRateCheckbox ? "" : "none"}`,
-          marginTop: "7px",
-        }}
-        type={"number"}
-        id="outlined-number"
-        label={"Dollar rate"}
-        onChange={(event) => {
-          setDollarRate(Number(event.target.value));
-        }}
-      />
-
       <Box
         sx={{
+          width: "260px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <TextField
+          type="number"
+          id="outlined-number"
+          label={"Working days"}
+          value={days}
+          onChange={(event) => setDays(Number(event.target.value))}
+          sx={{ margin: "7px 0" }}
+        />
+        <TextField
+          type="number"
+          id="outlined-number"
+          label={"Time"}
+          onChange={(event) => setTime(Number(event.target.value))}
+          sx={{ margin: "7px 0" }}
+        />
+        <TextField
+          type="number"
+          id="outlined-number"
+          label={"Rate"}
+          value={rate}
+          onChange={(event) => setRate(Number(event.target.value))}
+        />
+        <TextField
+          sx={{
+            display: `${weekendCheckbox ? "" : "none"}`,
+            marginTop: "7px",
+          }}
+          type={"number"}
+          id="outlined-number"
+          label={"Weekend"}
+          onChange={(event) => {
+            setWeekend(Number(event.target.value * 8));
+          }}
+        />
+        <TextField
+          sx={{
+            display: `${cashBonusCheckbox ? "" : "none"}`,
+            marginTop: "7px",
+          }}
+          type={"number"}
+          id="outlined-number"
+          label={"Cash bonus"}
+          onChange={(event) => {
+            setCashBonus(Number(event.target.value));
+          }}
+        />
+        <TextField
+          sx={{
+            display: `${dollarRateCheckbox ? "" : "none"}`,
+            marginTop: "7px",
+          }}
+          type={"number"}
+          id="outlined-number"
+          label={"Dollar rate"}
+          onChange={(event) => {
+            setDollarRate(Number(event.target.value));
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          width: "260px",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
@@ -231,6 +253,18 @@ const Inputs = () => {
           }
           label="Dollar rate"
         />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="fivePercentTax"
+              checked={fivePercentTaxCheckbox}
+              onChange={(event) =>
+                setFivePercentTaxCheckbox(event.target.checked)
+              }
+            />
+          }
+          label="5% tax"
+        />
       </Box>
       <Box
         sx={{
@@ -238,29 +272,63 @@ const Inputs = () => {
           alignItems: "center",
           justifyContent: "center",
           marginBottom: "10px",
+          width: "260px",
         }}
       >
-        <Typography
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            fontWeight: "700",
-          }}
-        >
-          {totalMoney}
-          <AttachMoneyRounded />
-        </Typography>
-        <Typography
-          sx={{
-            display: `${moneyUAH > 0 ? "flex" : "none"}`,
-            alignItems: "center",
-            fontWeight: "700",
-          }}
-        >
-          <HorizontalRuleRounded sx={{ marginX: "10px" }} />
-          {Number(moneyUAH).toFixed(2) + " UAH"}
-        </Typography>
-        <MenuForPushSalary money={totalMoney} />
+        {/*<Box>*/}
+        {/*<Typography*/}
+        {/*  sx={{*/}
+        {/*    display: "flex",*/}
+        {/*    alignItems: "center",*/}
+        {/*    fontWeight: "700",*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {totalMoney}*/}
+        {/*  <AttachMoneyRounded />*/}
+        {/*</Typography>*/}
+        {/*<Box*/}
+        {/*  sx={{*/}
+        {/*    display: `${moneyUAH > 0 ? "flex" : "none"}`,*/}
+        {/*    alignItems: "center",*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {" * " + dollarRate + " = "}*/}
+        {/*  <Typography sx={{ color: "#00ad16", fontWeight: "700", ml: "3px" }}>*/}
+        {/*    {Number(moneyUAH).toFixed(2) + " UAH"}*/}
+        {/*  </Typography>*/}
+        {/*</Box>*/}
+        {/*<Box>*/}
+        {/*  <Typography>{fivePercentTax}</Typography>*/}
+        {/*</Box>*/}
+        {/*</Box>*/}
+        <TableContainer>
+          <Table sx={{ width: "100%" }}>
+            <TableBody>
+              <TableRow>
+                <TableCell>USD: </TableCell>
+                <TableCell>
+                  <Box display={"flex"} alignItems={"center"}>
+                    {totalMoney + " $"}
+
+                    <MenuForPushSalary money={totalMoney} />
+                  </Box>
+                </TableCell>
+              </TableRow>
+              <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
+                <TableCell>USD rate:</TableCell>
+                <TableCell>{dollarRate}</TableCell>
+              </TableRow>
+              <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
+                <TableCell>UAH:</TableCell>
+                <TableCell>{Number(moneyUAH).toFixed(2)}</TableCell>
+              </TableRow>
+              <TableRow sx={{ display: fivePercentTaxCheckbox ? "" : "none" }}>
+                <TableCell>5% Tax:</TableCell>
+                <TableCell>{Math.round(fivePercentTax)}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
       <ButtonGroup variant={"contained"} aria-label="contained button group">
         <Button
