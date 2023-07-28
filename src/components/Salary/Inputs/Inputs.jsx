@@ -29,6 +29,7 @@ const Inputs = () => {
   const [dollarRate, setDollarRate] = useState("");
   const [moneyUAH, setMoneyUAH] = useState("");
   const [fivePercentTax, setFivePercentTax] = useState("");
+  const [twoRateMoney, setTwoRateMoney] = useState('')
 
   const [taxCheckbox, setTaxCheckbox] = useState(true);
   const [weekendCheckbox, setWeekendCheckbox] = useState(false);
@@ -107,6 +108,7 @@ const Inputs = () => {
     } else if (daysTime < time) {
       if (time > 220){
         overTime = 220 - daysTime
+        setTwoRateMoney((time - 220)* (rate*2))
         setTotalMoney((daysTime * rate + overTime * overRate)+ (time - 220) * (rate * 2))
       }else {
         setTotalMoney(daysTime * rate + overTime * overRate);
@@ -290,6 +292,12 @@ const Inputs = () => {
 
                     <MenuForPushSalary money={totalMoney} />
                   </Box>
+                </TableCell>
+              </TableRow>
+              <TableRow sx={{ display: time > 220 ? "" : "none" }}>
+                <TableCell>Double rate in USD: </TableCell>
+                <TableCell>
+                  {twoRateMoney + " $"}
                 </TableCell>
               </TableRow>
               <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
