@@ -18,7 +18,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { AttachMoneyRounded } from "@mui/icons-material";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged, } from "firebase/auth";
 import { setDoc, doc, getFirestore } from "firebase/firestore";
 
 const arrayMonth = [
@@ -40,9 +40,20 @@ const MenuForPushSalary = (props) => {
   const [open, setOpen] = useState(false);
   const [switcher, setSwitcher] = useState(true);
   const [month, setMonth] = useState("");
+  const [showAddBtn, setShowAddBtn] = useState(false)
 
   const date = DateTime.local().toFormat("MMMM");
   const year = DateTime.local().toFormat("yyyy");
+
+  useEffect(() => {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        setShowAddBtn(false);
+      } else {
+        setShowAddBtn(true);
+      }
+    });
+  });
 
   useEffect(() => {
     setMonth(date);
@@ -77,7 +88,7 @@ const MenuForPushSalary = (props) => {
   return (
     <Box
       sx={{
-        display: "flex",
+      display: showAddBtn ? 'none': "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",

@@ -19,5 +19,15 @@
     margin: 15px;
 }
 
+@media (max-width: 768px) {
+    .active{
+        margin: 0;
+
+    }
+    .navLink{
+        margin: 0;
+    }
+}
+
 
 

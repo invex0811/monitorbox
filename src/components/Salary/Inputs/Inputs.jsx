@@ -43,9 +43,9 @@ const Inputs = () => {
         "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=" +
           dateForExchange +
           "&json"
-      )
+          )
       .then((response) => setDollarRate(response.data[24].rate));
-  }, []);
+    }, []);
 
   //Вставка ставки с профиля
   useEffect(() => {
@@ -62,7 +62,7 @@ const Inputs = () => {
         setRate("");
       }
     });
-  }, []);
+    }, []);
 
   //Подсщет рабочих дней
   useEffect(() => {
@@ -87,7 +87,7 @@ const Inputs = () => {
     }
 
     setDays(workingDays);
-  }, []);
+    }, []);
 
   //Подсщет
   useEffect(() => {
@@ -99,13 +99,18 @@ const Inputs = () => {
 
   const calculateSalary = () => {
     const daysTime = days * 8;
-    const overTime = time - daysTime;
+    let overTime = time - daysTime;
     const overRate = rate * 1.5;
 
     if (rate <= 2 || daysTime >= time) {
       setTotalMoney(time * rate);
     } else if (daysTime < time) {
-      setTotalMoney(daysTime * rate + overTime * overRate);
+      if (time > 220){
+        overTime = 220 - daysTime
+        setTotalMoney((daysTime * rate + overTime * overRate)+ (time - 220) * (rate * 2))
+      }else {
+        setTotalMoney(daysTime * rate + overTime * overRate);
+      }
     }
   };
   const plusTax = () => {
@@ -119,6 +124,7 @@ const Inputs = () => {
   const plusCashBonus = () => {
     return cashBonus * cashBonusCheckbox;
   };
+
   const plusAllMoney = () => {
     calculateSalary();
     setTotalMoney((t) =>
@@ -273,32 +279,6 @@ const Inputs = () => {
           width: "260px",
         }}
       >
-        {/*<Box>*/}
-        {/*<Typography*/}
-        {/*  sx={{*/}
-        {/*    display: "flex",*/}
-        {/*    alignItems: "center",*/}
-        {/*    fontWeight: "700",*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {totalMoney}*/}
-        {/*  <AttachMoneyRounded />*/}
-        {/*</Typography>*/}
-        {/*<Box*/}
-        {/*  sx={{*/}
-        {/*    display: `${moneyUAH > 0 ? "flex" : "none"}`,*/}
-        {/*    alignItems: "center",*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {" * " + dollarRate + " = "}*/}
-        {/*  <Typography sx={{ color: "#00ad16", fontWeight: "700", ml: "3px" }}>*/}
-        {/*    {Number(moneyUAH).toFixed(2) + " UAH"}*/}
-        {/*  </Typography>*/}
-        {/*</Box>*/}
-        {/*<Box>*/}
-        {/*  <Typography>{fivePercentTax}</Typography>*/}
-        {/*</Box>*/}
-        {/*</Box>*/}
         <TableContainer>
           <Table sx={{ width: "100%" }}>
             <TableBody>

@@ -77,34 +77,46 @@ const NavigationDrawer = (props) => {
   };
 
   const linksList = links.map((item) => (
-    <NavLink className={active} key={item.id} to={item.to}>
-      <Tooltip title={toggle ? "" : item.name} arrow placement={"right"}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box
-            sx={{
-              height: "25px",
-              width: "25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <FontAwesomeIcon icon={item.icon} fontSize={20} />
-          </Box>
-          <animated.div style={{ ...springs }}>
+    <Box
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          display: item.phoneBar,
+        },
+      }}
+    >
+      <NavLink className={active} key={item.id} to={item.to}>
+        <Tooltip title={toggle ? "" : item.name} arrow placement={"right"}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box
               sx={{
-                display: toggle ? "" : "none",
-                paddingLeft: "10px",
-                minWidth: "200px",
+                height: "25px",
+                width: "25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {item.name}
+              <FontAwesomeIcon icon={item.icon} fontSize={20} />
             </Box>
-          </animated.div>
-        </Box>
-      </Tooltip>
-    </NavLink>
+            <animated.div
+              style={{
+                ...springs,
+              }}
+            >
+              <Box
+                sx={{
+                  display: toggle ? "" : "none",
+                  paddingLeft: "10px",
+                  minWidth: "200px",
+                }}
+              >
+                {item.name}
+              </Box>
+            </animated.div>
+          </Box>
+        </Tooltip>
+      </NavLink>
+    </Box>
   ));
 
   return (
@@ -117,6 +129,15 @@ const NavigationDrawer = (props) => {
         justifyContent: "center",
         alignItems: "center",
         zIndex: "900",
+        //Адаптация под телефон
+        [theme.breakpoints.down("sm")]: {
+          position: "fixed",
+          width: "100%",
+          height: "64px",
+          flexDirection: "row",
+          bottom: "0",
+          bgcolor: theme.palette.background.paper,
+        },
       }}
     >
       <animated.div style={{ ...animateOpenBar }}>
@@ -127,6 +148,14 @@ const NavigationDrawer = (props) => {
             borderRadius: "20px",
             marginLeft: "10px",
             paddingTop: "10px",
+            [theme.breakpoints.down("sm")]: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "start",
+              marginLeft: "-45px",
+              bgcolor: "rgba(0,0,0,0)",
+              padding: "0",
+            },
           }}
         >
           <Tooltip title={toggle ? "" : "Menu"} arrow placement={"right"}>
@@ -137,6 +166,9 @@ const NavigationDrawer = (props) => {
                 alignItems: "center",
                 padding: "10px",
                 margin: "15px 15px 30px 15px",
+                [theme.breakpoints.down("sm")]: {
+                  display: "none",
+                },
               }}
               onClick={() => {
                 setToggle(!toggle);
@@ -181,6 +213,7 @@ const NavigationDrawer = (props) => {
                 alignItems: "center",
                 padding: "10px",
                 margin: "30px 15px 15px 13px",
+                [theme.breakpoints.down("sm")]: { margin: "0 20px" },
               }}
             >
               <Box
@@ -215,7 +248,17 @@ const NavigationDrawer = (props) => {
             arrow
             placement={"right"}
           >
-            <Box sx={{ mb: "30px", ml: "15px" }}>
+            <Box
+              sx={{
+                mb: "30px",
+                ml: "15px",
+                [theme.breakpoints.down("sm")]: {
+                  margin: "0",
+                  display: "flex",
+                  alignItems: "center",
+                },
+              }}
+            >
               <IconButton onClick={changeTheme} color="inherit">
                 {theme.palette.mode === "dark" ? (
                   <Brightness7Icon />

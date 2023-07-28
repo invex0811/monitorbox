@@ -17,6 +17,7 @@ const navDrawerState = {
       name: "Salary",
       src: "./images/money.jpg",
       icon: faMoneyBill1Wave,
+      phoneBar: "",
     },
     {
       id: 2,
@@ -24,6 +25,7 @@ const navDrawerState = {
       name: "Gap&Unloading",
       src: "./images/calendar.jpg",
       icon: faCalendar,
+      phoneBar: "none",
     },
     {
       id: 3,
@@ -31,6 +33,7 @@ const navDrawerState = {
       name: "Time calculator",
       src: "./images/clock.jpg",
       icon: faClock,
+      phoneBar: "none",
     },
     {
       id: 4,
@@ -38,6 +41,7 @@ const navDrawerState = {
       name: "Speed calculator",
       src: "./images/speed.jpg",
       icon: faGaugeHigh,
+      phoneBar: "none",
     },
     {
       id: 5,
@@ -45,6 +49,7 @@ const navDrawerState = {
       name: "Road map",
       src: "./images/usaMap.jpg",
       icon: faRoad,
+      phoneBar: "none",
     },
   ],
 };

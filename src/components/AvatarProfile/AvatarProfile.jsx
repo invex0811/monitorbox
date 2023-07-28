@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material";
+import { Avatar, useTheme } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";

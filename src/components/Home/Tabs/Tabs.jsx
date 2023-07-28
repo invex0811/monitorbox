@@ -1,17 +1,31 @@
-import { CardContent, CardMedia, Typography, Card, Box } from "@mui/material";
+import {
+  CardContent,
+  CardMedia,
+  Typography,
+  Card,
+  Box,
+  useTheme,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import "./Tabs.css";
 import { useSpring, animated } from "@react-spring/web";
 import { useState } from "react";
 
-const Tabs = ({ to, image, title }) => {
+const Tabs = ({ to, image, title, tabsPhone }) => {
   const [hover, setHover] = useState(false);
   const hoverTab = useSpring({
     backgroundColor: hover ? "#679CF6" : "#292E33",
     color: hover ? "#000" : "#fff",
   });
+
+  const theme = useTheme();
   return (
-    <Box sx={{ margin: "10px" }}>
+    <Box
+      sx={{
+        margin: "10px",
+        [theme.breakpoints.down("sm")]: { display: tabsPhone },
+      }}
+    >
       <NavLink to={to} style={{ textDecoration: "none", color: "#000" }}>
         <Card
           sx={{ width: "300px", padding: "0px" }}

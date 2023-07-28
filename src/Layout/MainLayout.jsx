@@ -1,18 +1,28 @@
 import Header from "../components/Header/Header";
 import NavigationDrawer from "../components/NavigationDrawer/NavigationDrawer";
-import { Container, Alert, AlertTitle, Slide, Typography } from "@mui/material";
+import {
+  Container,
+  Alert,
+  AlertTitle,
+  Slide,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 
 const MainLayout = (props) => {
   const alertData = useSelector((state) => state.alertReducer);
-
+  const theme = useTheme();
   return (
     <>
       <Header />
       <NavigationDrawer />
       <Container
         bgcolor={"background.default"}
-        sx={{ height: "100vh", paddingTop: "70px" }}
+        sx={{
+          height: "100vh",
+          paddingTop: "70px",
+        }}
       >
         {props.children}
       </Container>
