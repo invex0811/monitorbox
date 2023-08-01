@@ -9,6 +9,7 @@ import {
   TableRow,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -35,6 +36,7 @@ const Profile = () => {
   const [readOnly, setReadOnly] = useState(true);
 
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const toggleShow = () => {
     setShow((s) => !s);
@@ -229,7 +231,13 @@ const Profile = () => {
                     type={"text"}
                     value={name}
                     readOnly={readOnly}
-                    style={{ border: readOnly ? "none" : "", fontSize: "1rem" }}
+                    style={{
+                      border: readOnly ? "none" : "2px solid #fff",
+                      borderRadius: "5px",
+                      fontSize: "1rem",
+                      background: "none",
+                      color: theme.palette.text.primary,
+                    }}
                     onChange={(event) => setName(event.target.value)}
                   />
                 </TableCell>
@@ -251,7 +259,13 @@ const Profile = () => {
                     type={"number"}
                     value={rate}
                     readOnly={readOnly}
-                    style={{ border: readOnly ? "none" : "", fontSize: "1rem" }}
+                    style={{
+                      border: readOnly ? "none" : "2px solid #fff",
+                      borderRadius: "5px",
+                      fontSize: "1rem",
+                      background: "none",
+                      color: theme.palette.text.primary,
+                    }}
                     onChange={(event) => setRate(event.target.value)}
                   />
                 </TableCell>

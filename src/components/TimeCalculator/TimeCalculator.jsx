@@ -80,7 +80,7 @@ const TimeCalculator = () => {
 
     if (calcProximityTEHCheckbox) {
       if (operationTWO === ">" || operationTWO === "<") {
-        if (heightTimestamp > lowTimestamp) {
+        if (newDate > newDate2) {
           proxyValue = heightTEH - (diff.hours + diff.minutes / 60);
           proxyValue = proxyValue.toFixed(2);
 
@@ -91,7 +91,7 @@ const TimeCalculator = () => {
             setAlertType("warning");
             setInfo(`Ожидался TEH: ${proxyValue}`);
           }
-        } else if (heightTimestamp < lowTimestamp) {
+        } else if (newDate > newDate2) {
           diff.hours = Math.abs(diff.hours);
           diff.minutes = Math.abs(diff.minutes);
           proxyValue = heightTEH + (diff.hours + diff.minutes / 60);

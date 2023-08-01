@@ -29,7 +29,7 @@ const Inputs = () => {
   const [dollarRate, setDollarRate] = useState("");
   const [moneyUAH, setMoneyUAH] = useState("");
   const [fivePercentTax, setFivePercentTax] = useState("");
-  const [twoRateMoney, setTwoRateMoney] = useState('')
+  const [twoRateMoney, setTwoRateMoney] = useState("");
 
   const [taxCheckbox, setTaxCheckbox] = useState(true);
   const [weekendCheckbox, setWeekendCheckbox] = useState(false);
@@ -44,9 +44,9 @@ const Inputs = () => {
         "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=" +
           dateForExchange +
           "&json"
-          )
+      )
       .then((response) => setDollarRate(response.data[24].rate));
-    }, []);
+  }, []);
 
   //Вставка ставки с профиля
   useEffect(() => {
@@ -63,7 +63,7 @@ const Inputs = () => {
         setRate("");
       }
     });
-    }, []);
+  }, []);
 
   //Подсщет рабочих дней
   useEffect(() => {
@@ -88,7 +88,7 @@ const Inputs = () => {
     }
 
     setDays(workingDays);
-    }, []);
+  }, []);
 
   //Подсщет
   useEffect(() => {
@@ -106,15 +106,18 @@ const Inputs = () => {
     if (rate <= 2 || daysTime >= time) {
       setTotalMoney(time * rate);
     } else if (daysTime < time) {
-      if (time > 220){
-        overTime = 220 - daysTime
-        setTwoRateMoney((time - 220)* (rate*2))
-        setTotalMoney((daysTime * rate + overTime * overRate)+ (time - 220) * (rate * 2))
-      }else {
+      if (time > 220) {
+        overTime = 220 - daysTime;
+        setTwoRateMoney((time - 220) * (rate * 2));
+        setTotalMoney(
+          daysTime * rate + overTime * overRate + (time - 220) * (rate * 2)
+        );
+      } else {
         setTotalMoney(daysTime * rate + overTime * overRate);
       }
     }
   };
+
   const plusTax = () => {
     return tax * taxCheckbox;
   };
@@ -133,6 +136,7 @@ const Inputs = () => {
       Math.round(t + plusTax() + plusWeekend() + plusCashBonus())
     );
   };
+
   const exchangeMoney = () => {
     setMoneyUAH(dollarRate * totalMoney);
   };
@@ -168,7 +172,7 @@ const Inputs = () => {
           sx={{ margin: "7px 0" }}
         />
         <TextField
-          type="number"
+          type="text"
           id="outlined-number"
           label={"Rate"}
           value={rate}
@@ -296,9 +300,7 @@ const Inputs = () => {
               </TableRow>
               <TableRow sx={{ display: time > 220 ? "" : "none" }}>
                 <TableCell>Double rate in USD: </TableCell>
-                <TableCell>
-                  {twoRateMoney + " $"}
-                </TableCell>
+                <TableCell>{twoRateMoney + " $"}</TableCell>
               </TableRow>
               <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
                 <TableCell>USD rate:</TableCell>
