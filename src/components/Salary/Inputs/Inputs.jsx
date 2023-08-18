@@ -300,12 +300,12 @@ const Inputs = () => {
               </TableRow>
             </TableBody>
           </Table>
-          <Table sx={{ display: "none" }}>
+          <Table>
             <TableBody>
-              <TableRow sx={{ display: time > 220 ? "" : "none" }}>
-                <TableCell>Double rate in USD: </TableCell>
-                <TableCell>{twoRateMoney + " $"}</TableCell>
-              </TableRow>
+              {/*<TableRow sx={{ display: time > 220 ? "" : "none" }}>*/}
+              {/*  <TableCell>Double rate in USD: </TableCell>*/}
+              {/*  <TableCell>{twoRateMoney + " $"}</TableCell>*/}
+              {/*</TableRow>*/}
               <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
                 <TableCell>USD rate:</TableCell>
                 <TableCell>{dollarRate}</TableCell>
