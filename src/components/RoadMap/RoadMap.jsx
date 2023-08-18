@@ -1,7 +1,6 @@
 import MainLayout from "../../Layout/MainLayout";
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
 const RoadMap = () => {
   const [coordinates, setCoordinates] = useState([]);

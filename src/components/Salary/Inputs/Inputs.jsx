@@ -289,7 +289,7 @@ const Inputs = () => {
           <Table sx={{ width: "100%" }}>
             <TableBody>
               <TableRow sx={{ display: totalMoney > 0 ? "" : "none" }}>
-                <TableCell>USD: </TableCell>
+                <TableCell>Total money: </TableCell>
                 <TableCell>
                   <Box display={"flex"} alignItems={"center"}>
                     {totalMoney + " $"}
@@ -298,6 +298,10 @@ const Inputs = () => {
                   </Box>
                 </TableCell>
               </TableRow>
+            </TableBody>
+          </Table>
+          <Table sx={{ display: "none" }}>
+            <TableBody>
               <TableRow sx={{ display: time > 220 ? "" : "none" }}>
                 <TableCell>Double rate in USD: </TableCell>
                 <TableCell>{twoRateMoney + " $"}</TableCell>
