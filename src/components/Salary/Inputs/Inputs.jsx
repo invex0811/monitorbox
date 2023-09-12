@@ -10,6 +10,10 @@ import {
   TableContainer,
   TableRow,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { DateTime } from "luxon";
@@ -20,6 +24,10 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const tax = 43;
 const Inputs = () => {
+  const [currentDateObj, setCurrentDate] = useState({
+    nowYear: DateTime.now().get("year"),
+    nowMonth: DateTime.now().get("month"),
+  });
   const [days, setDays] = useState(null);
   const [time, setTime] = useState("");
   const [rate, setRate] = useState("");
@@ -67,12 +75,23 @@ const Inputs = () => {
 
   //Подсщет рабочих дней
   useEffect(() => {
-    let nowDate = DateTime.now();
-    let nowYear = nowDate.get("year");
-    let nowMonth = nowDate.get("month");
+    calcWorkingDays(currentDateObj.nowMonth);
+  }, []);
+
+  //Подсщет
+  useEffect(() => {
+    if (fivePercentTaxCheckbox) {
+      exchangeMoney();
+      setFivePercentTax((moneyUAH / 100) * 5);
+    }
+  }, [fivePercentTaxCheckbox, moneyUAH]);
+
+  //calc working days
+  const calcWorkingDays = (selectMonth) => {
+    let nowYear = currentDateObj.year;
     const startDate = DateTime.fromObject({
       year: nowYear,
-      month: nowMonth,
+      month: selectMonth,
       day: 1,
     });
     const endDate = startDate.endOf("month");
@@ -88,16 +107,7 @@ const Inputs = () => {
     }
 
     setDays(workingDays);
-  }, []);
-
-  //Подсщет
-  useEffect(() => {
-    if (fivePercentTaxCheckbox) {
-      exchangeMoney();
-      setFivePercentTax((moneyUAH / 100) * 5);
-    }
-  }, [fivePercentTaxCheckbox, moneyUAH]);
-
+  };
   const calculateSalary = () => {
     const daysTime = days * 8;
     let overTime = time - daysTime;
@@ -156,14 +166,48 @@ const Inputs = () => {
           flexDirection: "column",
         }}
       >
-        <TextField
-          type="number"
-          id="outlined-number"
-          label={"Working days"}
-          value={days}
-          onChange={(event) => setDays(Number(event.target.value))}
-          sx={{ margin: "7px 0" }}
-        />
+        <Box sx={{ display: "flex" }}>
+          <TextField
+            type="number"
+            id="outlined-number"
+            label={"Working days"}
+            value={days}
+            onChange={(event) => setDays(Number(event.target.value))}
+            sx={{ margin: "7px 0", width: "180px" }}
+          />
+          <FormControl sx={{ margin: "7px 0 7px 7px", width: "100%" }}>
+            <InputLabel id="demo-simple-select-autowidth-label">
+              Month
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
+              value={currentDateObj.nowMonth}
+              onChange={(event) => {
+                setCurrentDate({
+                  ...currentDateObj,
+                  nowMonth: event.target.value,
+                });
+                calcWorkingDays(event.target.value);
+              }}
+              autoWidth
+              label="Month"
+            >
+              <MenuItem value={1}>January</MenuItem>
+              <MenuItem value={2}>February</MenuItem>
+              <MenuItem value={3}>March</MenuItem>
+              <MenuItem value={4}>April</MenuItem>
+              <MenuItem value={5}>May</MenuItem>
+              <MenuItem value={6}>June</MenuItem>
+              <MenuItem value={7}>July</MenuItem>
+              <MenuItem value={8}>August</MenuItem>
+              <MenuItem value={9}>September</MenuItem>
+              <MenuItem value={10}>October</MenuItem>
+              <MenuItem value={11}>November</MenuItem>
+              <MenuItem value={12}>December</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         <TextField
           type="number"
           id="outlined-number"
