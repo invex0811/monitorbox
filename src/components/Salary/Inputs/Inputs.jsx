@@ -216,11 +216,11 @@ const Inputs = () => {
           sx={{ margin: "7px 0" }}
         />
         <TextField
-          type="text"
+          type="number"
           id="outlined-number"
           label={"Rate"}
           value={rate}
-          onChange={(event) => setRate(Number(event.target.value))}
+          onChange={(event) => setRate(event.target.value)}
         />
         <TextField
           sx={{
