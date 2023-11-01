@@ -24,6 +24,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
+import { closeAlert, showAlert } from "../../../store/slicer/alertSlicer";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -80,28 +81,28 @@ const Profile = () => {
   const logout = () => {
     try {
       getAuth().signOut();
-      dispatch({
-        type: "SENT_ALERT",
-        severity: "success",
-        title: "Success",
-        value: "You logouted!",
-      });
+      dispatch(
+        showAlert({
+          severity: "success",
+          title: "Success",
+          value: "You logout!",
+          show: true,
+        })
+      );
       setTimeout(() => {
-        dispatch({
-          type: "CLOSE_ALERT",
-        });
+        dispatch(closeAlert());
       }, 3000);
     } catch (e) {
-      dispatch({
-        type: "SENT_ALERT",
-        severity: "error",
-        title: "Error",
-        value: e,
-      });
+      dispatch(
+        showAlert({
+          severity: "error",
+          title: "Error",
+          value: e,
+          show: true,
+        })
+      );
       setTimeout(() => {
-        dispatch({
-          type: "CLOSE_ALERT",
-        });
+        dispatch(closeAlert());
       }, 3000);
     }
   };
@@ -118,16 +119,16 @@ const Profile = () => {
       role: role,
       photoURL: photo,
     }).then((e) => console.log(e));
-    dispatch({
-      type: "SENT_ALERT",
-      severity: "success",
-      title: "Success",
-      value: "Data saved!",
-    });
+    dispatch(
+      showAlert({
+        severity: "success",
+        title: "Success",
+        value: "Data saved!",
+        show: true,
+      })
+    );
     setTimeout(() => {
-      dispatch({
-        type: "CLOSE_ALERT",
-      });
+      dispatch(closeAlert());
     }, 3000);
   };
 

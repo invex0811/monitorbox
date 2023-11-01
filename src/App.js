@@ -14,8 +14,9 @@ import SpeedCalculator from "./components/SpeedCalc/SpeedCalculator";
 import Auth from "./components/Auth/Auth.jsx";
 import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
 import RoadMap from "./components/RoadMap/RoadMap";
-import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import Todos from "./components/Todos/Todos";
 function App(props) {
   const [theme, colorMode] = useMode();
 
@@ -44,6 +45,7 @@ function App(props) {
             />
             <Route path={"/speedCalculator"} element={<SpeedCalculator />} />
             <Route path={"/roadMap"} element={<RoadMap />} />
+            <Route path={"/todo"} element={<Todos />} />
           </Routes>
         </div>
       </ThemeProvider>

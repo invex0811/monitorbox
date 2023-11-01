@@ -3,7 +3,6 @@ import {
   Alert,
   AlertTitle,
   Slide,
-  AppBar,
   Toolbar,
   Box,
   useTheme,
@@ -33,7 +32,7 @@ const LoginRegisterLayout = (otherProps) => {
 
   const theme = useTheme();
 
-  const alertData = useSelector((state) => state.alertReducer);
+  const alertData = useSelector((state) => state.alert.alert);
   return (
     <>
       <section>
@@ -69,9 +68,9 @@ const LoginRegisterLayout = (otherProps) => {
       >
         {otherProps.children}
       </Container>
-      <Slide direction="left" in={alertData.alert.show}>
+      <Slide direction="left" in={alertData.show}>
         <Alert
-          severity={alertData.alert.severity}
+          severity={alertData.severity}
           sx={{
             position: "fixed",
             top: "100px",
@@ -80,8 +79,8 @@ const LoginRegisterLayout = (otherProps) => {
             maxWidth: "400px",
           }}
         >
-          <AlertTitle>{alertData.alert.title}</AlertTitle>
-          {alertData.alert.value}
+          <AlertTitle>{alertData.title}</AlertTitle>
+          {alertData.value}
         </Alert>
       </Slide>
     </>

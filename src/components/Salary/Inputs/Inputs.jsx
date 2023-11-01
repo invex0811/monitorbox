@@ -37,7 +37,7 @@ const Inputs = () => {
   const [dollarRate, setDollarRate] = useState("");
   const [moneyUAH, setMoneyUAH] = useState("");
   const [fivePercentTax, setFivePercentTax] = useState("");
-  const [twoRateMoney, setTwoRateMoney] = useState("");
+  // const [twoRateMoney, setTwoRateMoney] = useState("");
 
   const [taxCheckbox, setTaxCheckbox] = useState(true);
   const [weekendCheckbox, setWeekendCheckbox] = useState(false);
@@ -118,7 +118,7 @@ const Inputs = () => {
     } else if (daysTime < time) {
       if (time > 220) {
         overTime = 220 - daysTime;
-        setTwoRateMoney((time - 220) * (rate * 2));
+        // setTwoRateMoney((time - 220) * (rate * 2));
         setTotalMoney(
           daysTime * rate + overTime * overRate + (time - 220) * (rate * 2)
         );
@@ -352,7 +352,7 @@ const Inputs = () => {
               {/*</TableRow>*/}
               <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
                 <TableCell>USD rate:</TableCell>
-                <TableCell>{dollarRate}</TableCell>
+                <TableCell sx={{ color: "#01e01f" }}>{dollarRate}</TableCell>
               </TableRow>
               <TableRow sx={{ display: moneyUAH > 0 ? "" : "none" }}>
                 <TableCell>UAH:</TableCell>

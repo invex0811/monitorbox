@@ -12,11 +12,9 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { type } from "@testing-library/user-event/dist/type";
 
 const TimeCalculator = () => {
   const [heightTimestamp, setHeightTimestamp] = useState("");

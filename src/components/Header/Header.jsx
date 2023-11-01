@@ -62,7 +62,10 @@ const Header = () => {
       case "/roadMap":
         setTitleName("Road map");
         setTitle("Road map");
-
+        break;
+      case "/todo":
+        setTitleName("Todo");
+        setTitle("Todo");
         break;
 
       default:

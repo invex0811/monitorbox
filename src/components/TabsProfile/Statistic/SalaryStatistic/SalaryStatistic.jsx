@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Grow,
-  IconButton,
-  TableCell,
-  Tooltip,
-} from "@mui/material";
+import { Box, Grow, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import Graph from "../Graph/Graph";
 import { getAuth } from "firebase/auth";

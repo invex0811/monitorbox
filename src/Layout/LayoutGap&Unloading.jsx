@@ -4,7 +4,7 @@ import { Container, Alert, AlertTitle, Slide } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const MainLayout = (props) => {
-  const alertData = useSelector((state) => state.alertReducer);
+  const alertData = useSelector((state) => state.alert.alert);
   return (
     <>
       <Header />
@@ -17,9 +17,9 @@ const MainLayout = (props) => {
       >
         {props.children}
       </Container>
-      <Slide direction="left" in={alertData.alert.show}>
+      <Slide direction="left" in={alertData.show}>
         <Alert
-          severity={alertData.alert.severity}
+          severity={alertData.severity}
           sx={{
             position: "fixed",
             top: "100px",
@@ -28,8 +28,8 @@ const MainLayout = (props) => {
             maxWidth: "400px",
           }}
         >
-          <AlertTitle>{alertData.alert.title}</AlertTitle>
-          {alertData.alert.value}
+          <AlertTitle>{alertData.title}</AlertTitle>
+          {alertData.value}
         </Alert>
       </Slide>
     </>

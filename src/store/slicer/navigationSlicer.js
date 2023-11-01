@@ -1,15 +1,14 @@
+import { createSlice } from "@reduxjs/toolkit";
 import {
-  faMoneyBill1Wave,
-  faClock,
   faCalendar,
+  faClock,
   faGaugeHigh,
+  faMoneyBill1Wave,
   faRoad,
+  faRectangleList,
 } from "@fortawesome/free-solid-svg-icons";
 
-const DRAWER_TOGGLE = "DRAWER_TOGGLE";
-const THEME_TOGGLE = "THEME_TOGGLE";
-
-const navDrawerState = {
+const initialState = {
   navigationLinkItem: [
     {
       id: 1,
@@ -51,15 +50,20 @@ const navDrawerState = {
       icon: faRoad,
       phoneBar: "none",
     },
+    {
+      id: 6,
+      to: "/todo",
+      name: "Todo",
+      src: "./images/usaMap.jpg",
+      icon: faRectangleList,
+      phoneBar: "none",
+    },
   ],
 };
+export const navigationSlicer = createSlice({
+  name: "navigation",
+  initialState,
+  reducers: {},
+});
 
-export const navDrawerReducer = (state = navDrawerState, action) => {
-  switch (action.type) {
-    case DRAWER_TOGGLE:
-      return { ...state, openToggle: action.payload };
-
-    default:
-      return state;
-  }
-};
+export default navigationSlicer.reducer;

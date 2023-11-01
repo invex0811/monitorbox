@@ -19,6 +19,7 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { closeAlert, showAlert } from "../../../store/slicer/alertSlicer";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,29 +32,29 @@ const Login = () => {
   const authentication = () => {
     signInWithEmailAndPassword(getAuth(), email, password)
       .then(() => {
-        dispatch({
-          type: "SENT_ALERT",
-          severity: "success",
-          title: "Success",
-          value: "Login successful",
-        });
+        dispatch(
+          showAlert({
+            severity: "success",
+            title: "Success",
+            value: "Login successful",
+            show: true,
+          })
+        );
         setTimeout(() => {
-          dispatch({
-            type: "CLOSE_ALERT",
-          });
+          dispatch(closeAlert());
         }, 3000);
       })
       .catch((e) => {
-        dispatch({
-          type: "SENT_ALERT",
-          severity: "error",
-          title: e.code,
-          value: e.message,
-        });
+        dispatch(
+          showAlert({
+            severity: "error",
+            title: e.code,
+            value: e.message,
+            show: true,
+          })
+        );
         setTimeout(() => {
-          dispatch({
-            type: "CLOSE_ALERT",
-          });
+          dispatch(closeAlert());
         }, 3000);
         setShowResetPassword(true);
       });

@@ -1,14 +1,8 @@
-import { Avatar, useTheme } from "@mui/material";
+import { Avatar } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-  getDoc,
-  doc,
-  getFirestore,
-  collection,
-  document,
-} from "firebase/firestore";
+import { getDoc, doc, getFirestore } from "firebase/firestore";
 
 const AvatarProfile = () => {
   const [photoURL, setPhotoURL] = useState("");

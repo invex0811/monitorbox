@@ -1,17 +1,12 @@
-import { combineReducers, createStore } from "redux";
-import { navDrawerReducer } from "./reducers/navDrawerReducer";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { salaryReducer } from "./reducers/salaryReducer";
-import { userReducer } from "./reducers/userReducer";
-import { alertReducer } from "./reducers/alertReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import alertReducer from "./slicer/alertSlicer";
+import navigationReducer from "./slicer/navigationSlicer";
+import todosReducer from "./slicer/todosSlicer";
 
-const rootReducer = combineReducers({
-  navDrawerReducer,
-  salaryReducer,
-  userReducer,
-  alertReducer,
+export const store = configureStore({
+  reducer: {
+    alert: alertReducer,
+    navigation: navigationReducer,
+    todos: todosReducer,
+  },
 });
-
-const store = createStore(rootReducer, composeWithDevTools());
-
-export default store;

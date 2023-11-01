@@ -4,9 +4,7 @@ import MainLayout from "../../Layout/MainLayout";
 import { Box } from "@mui/material";
 
 const Home = (props) => {
-  const links = useSelector(
-    (state) => state.navDrawerReducer.navigationLinkItem
-  );
+  const links = useSelector((state) => state.navigation.navigationLinkItem);
 
   const tab = links.map((item) => (
     <Tabs

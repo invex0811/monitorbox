@@ -45,9 +45,7 @@ const NavigationDrawer = (props) => {
   };
   const active = ({ isActive }) => (isActive ? style.active : style.navLink);
 
-  const links = useSelector(
-    (state) => state.navDrawerReducer.navigationLinkItem
-  );
+  const links = useSelector((state) => state.navigation.navigationLinkItem);
   //LOCATION
 
   //ANIMATIONS
