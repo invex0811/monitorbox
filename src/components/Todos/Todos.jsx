@@ -75,15 +75,24 @@ const Todos = () => {
                 icon={<FontAwesomeIcon icon={faCheck} />}
                 tooltipTitle={"Complete"}
                 onClick={() => dispatch(completeTodo(item.id))}
+                sx={{
+                  color: "success.main",
+                }}
               />
               <SpeedDialAction
                 icon={<FontAwesomeIcon icon={faHourglass} />}
                 tooltipTitle={"Aside"}
+                sx={{
+                  color: "warning.main",
+                }}
                 onClick={() => dispatch(asideTodo(item.id))}
               />
               <SpeedDialAction
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 tooltipTitle={"Delete"}
+                sx={{
+                  color: "error.main",
+                }}
                 onClick={() => dispatch(removeItemFromList(item.id))}
               />
             </SpeedDial>
@@ -134,11 +143,17 @@ const Todos = () => {
                 icon={<FontAwesomeIcon icon={faRefresh} />}
                 tooltipTitle={"Refresh"}
                 onClick={() => dispatch(refreshTodo(item.id))}
+                sx={{
+                  color: "success.main",
+                }}
               />
               <SpeedDialAction
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 tooltipTitle={"Delete"}
                 onClick={() => dispatch(removeItemFromList(item.id))}
+                sx={{
+                  color: "error.main",
+                }}
               />
             </SpeedDial>
           </CardActions>
@@ -188,11 +203,17 @@ const Todos = () => {
                 icon={<FontAwesomeIcon icon={faCheck} />}
                 tooltipTitle={"Complete"}
                 onClick={() => dispatch(completeTodo(item.id))}
+                sx={{
+                  color: "success.main",
+                }}
               />
               <SpeedDialAction
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 tooltipTitle={"Delete"}
                 onClick={() => dispatch(removeItemFromList(item.id))}
+                sx={{
+                  color: "error.main",
+                }}
               />
             </SpeedDial>
           </CardActions>
@@ -208,7 +229,7 @@ const Todos = () => {
         </Card>
       ))
     : null;
-  console.log(filteredActive, filteredAside, filteredCompleted);
+
   return (
     <MainLayout>
       <Box>
@@ -223,14 +244,18 @@ const Todos = () => {
         </Box>
         {filteredAside.length > 0 ? (
           <Box mt={3}>
-            <Typography variant={"h4"}>Aside notes:</Typography>
+            <Typography variant={"h4"} sx={{ color: "warning.main" }}>
+              Aside notes:
+            </Typography>
             {asideList}
           </Box>
         ) : null}
 
         {filteredCompleted.length ? (
           <Box mt={3}>
-            <Typography variant={"h4"}>Completed notes:</Typography>
+            <Typography variant={"h4"} sx={{ color: "success.main" }}>
+              Completed notes:
+            </Typography>
             {completedList}
           </Box>
         ) : null}

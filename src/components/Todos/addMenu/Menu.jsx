@@ -7,6 +7,7 @@ import { v4 as uuid4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addItemToList } from "../../../store/slicer/todosSlicer";
 import { DateTime } from "luxon";
+import { closeAlert, showAlert } from "../../../store/slicer/alertSlicer";
 const Menu = () => {
   const [checked, setChecked] = useState(false);
   const [inputTitle, setInputTitle] = useState("");
@@ -20,17 +21,43 @@ const Menu = () => {
 
   const handleClick = () => {
     if (checked) {
-      setChecked(false);
-      dispatch(
-        addItemToList({
-          id: uuid4(),
-          name: inputTitle,
-          value: textArea,
-          time: currentTime(),
-          completed: false,
-          aside: false,
-        })
-      );
+      try {
+        setChecked(false);
+        dispatch(
+          addItemToList({
+            id: uuid4(),
+            name: inputTitle,
+            value: textArea,
+            time: currentTime(),
+            completed: false,
+            aside: false,
+          })
+        );
+        dispatch(
+          showAlert({
+            severity: "success",
+            title: "Success",
+            value: "Note saved",
+            show: true,
+          })
+        );
+        setTimeout(() => {
+          dispatch(closeAlert());
+        }, 3000);
+      } catch (e) {
+        dispatch(
+          showAlert({
+            severity: "error",
+            title: e.code,
+            value: e.message,
+            show: true,
+          })
+        );
+        setTimeout(() => {
+          dispatch(closeAlert());
+        }, 3000);
+      }
+
       setTextArea((t) => (t = ""));
       setInputTitle("");
     } else {

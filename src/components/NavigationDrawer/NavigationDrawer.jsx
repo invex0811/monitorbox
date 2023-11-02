@@ -117,11 +117,21 @@ const NavigationDrawer = (props) => {
     </Box>
   ));
 
+  const defaultStyle = {
+    position: "absolute",
+    left: "5px",
+  };
+
+  const combineStyle = {
+    ...animateOpenBar,
+    ...defaultStyle,
+  };
   return (
     <Box
       sx={{
-        position: "absolute",
-        height: "100%",
+        position: "fixed",
+        height: "100vh",
+        paddingTop: "65px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -138,14 +148,14 @@ const NavigationDrawer = (props) => {
         },
       }}
     >
-      <animated.div style={{ ...animateOpenBar }}>
+      <animated.div style={combineStyle}>
         <Box
           bgcolor={"background.paper"}
           sx={{
             height: "100%",
             borderRadius: "20px",
-            marginLeft: "10px",
             paddingTop: "10px",
+            paddingBottom: "20px",
             [theme.breakpoints.down("sm")]: {
               display: "flex",
               alignItems: "center",
@@ -221,6 +231,7 @@ const NavigationDrawer = (props) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  marginLeft: "5px",
                 }}
               >
                 <Avatar />
@@ -248,8 +259,7 @@ const NavigationDrawer = (props) => {
           >
             <Box
               sx={{
-                mb: "30px",
-                ml: "15px",
+                ml: "20px",
                 [theme.breakpoints.down("sm")]: {
                   margin: "0",
                   display: "flex",
