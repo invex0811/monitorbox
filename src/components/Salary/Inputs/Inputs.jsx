@@ -270,7 +270,6 @@ const Inputs = () => {
                     width: "260px",
                     display: "flex",
                     flexWrap: "wrap",
-                    justifyContent: "space-between",
                 }}
             >
                 <FormControlLabel
@@ -284,6 +283,7 @@ const Inputs = () => {
                         />
                     }
                     label="Tax"
+                    sx={{ width: "108px" }}
                 />
                 <FormControlLabel
                     control={
