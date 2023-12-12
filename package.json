@@ -12,6 +12,8 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.12",
     "@mui/x-date-pickers": "^6.5.0",
+    "@react-rxjs/core": "^0.10.7",
+    "@react-rxjs/utils": "^0.9.7",
     "@react-spring/web": "^9.6.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.16.5",
@@ -36,6 +38,8 @@
     "recharts": "^2.6.2",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
+    "rxjs": "^7.8.1",
+    "use-sound": "^4.0.1",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
