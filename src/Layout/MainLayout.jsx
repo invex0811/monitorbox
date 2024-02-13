@@ -37,7 +37,7 @@ const MainLayout = (props) => {
         variant={"caption"}
         sx={{ position: "absolute", bottom: "0", right: "0" }}
       >
-        Version: 2.1.0
+        Version: 2.1.1
       </Typography>
     </>
   );

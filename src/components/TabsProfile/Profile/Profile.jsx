@@ -50,7 +50,7 @@ const Profile = () => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), (user) => {
-      if (user) {
+      if (user && !user.isAnonymous) {
         const takeData = async () => {
           const db = getFirestore();
           const docRef = doc(db, "users", getAuth().currentUser.uid);
@@ -68,7 +68,7 @@ const Profile = () => {
         forward("/");
       }
     });
-  }, []);
+  });
 
   const changePhoto = async () => {
     openModal();
@@ -127,9 +127,6 @@ const Profile = () => {
         show: true,
       })
     );
-    setTimeout(() => {
-      dispatch(closeAlert());
-    }, 3000);
   };
 
   return (

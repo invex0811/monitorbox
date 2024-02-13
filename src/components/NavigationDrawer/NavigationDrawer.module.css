@@ -12,8 +12,8 @@
 .active{
     display: block;
     text-decoration: none;
-    color: #fff;
-    background: linear-gradient(180deg, #679CF6 0%, #4072EE 100%);
+    color: #4072EE;
+    border: 2px solid #4072EE;
     border-radius: 10px;
     padding: 10px;
     margin: 15px;

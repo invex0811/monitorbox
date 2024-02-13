@@ -2,23 +2,36 @@ import MainLayout from "../../Layout/MainLayout";
 import {
   Typography,
   List,
-  ListItem,
-  ListItemText,
   Button,
-  ListItemSecondaryAction,
   TextField,
   Box,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { doc, onSnapshot, getFirestore, setDoc } from "firebase/firestore";
-import { v4 as uuid4 } from "uuid";
-import { closeAlert, showAlert } from "../../store/slicer/alertSlicer";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import {
+  doc,
+  getFirestore,
+  setDoc,
+  collection,
+  onSnapshot,
+  query,
+  deleteDoc,
+} from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
 import useSound from "use-sound";
+import { guestLogin } from "../Auth/guestAccountLogin";
+import {
+  addUsers,
+  setName,
+  setUserUID,
+} from "../../store/slicer/autocommitSlicer";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { DateTime } from "luxon";
 
 const AutocomitQueue = () => {
-  const [users, setUsers] = useState([]);
-  const [name, setName] = useState("");
   const [playOn] = useSound(
     "https://zvukogram.com/mp3/cats/2733/poyavlenie-podskazki-na-ekrane.mp3",
     {
@@ -26,255 +39,139 @@ const AutocomitQueue = () => {
     }
   );
   const dispatch = useDispatch();
+  const queue = useSelector((state) => state.autocommit.queue);
+  const name = useSelector((state) => state.autocommit.name);
+  const userUID = useSelector((state) => state.autocommit.userUID);
 
   useEffect(() => {
-    const fetchQueue = async () => {
-      const db = getFirestore();
-      const usersRef = doc(db, "autocommitQueue", "users");
-
-      const unsubscribe = onSnapshot(usersRef, (doc) => {
-        if (doc.exists()) {
-          setUsers(doc.data().queue || []);
-        }
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchQueue();
-  }, []);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      if (users[0].id === localStorage.getItem("id")) {
-        playOn();
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        dispatch(setUserUID(getAuth().currentUser.uid));
       }
-    }
-  }, [users]);
-
-  const setFirebase = async (arr) => {
-    const refDb = doc(getFirestore(), "autocommitQueue", "users");
-
-    await setDoc(refDb, {
-      queue: arr,
     });
+  });
+
+  useEffect(() => {
+    const q = query(collection(getFirestore(), "autocommitQueue"));
+    onSnapshot(q, (snapshot) => {
+      const arr = [];
+      snapshot.forEach((doc) => {
+        arr.push(doc.data());
+      });
+      dispatch(addUsers(arr));
+    });
+  }, []);
+  console.log(queue);
+  // useEffect(() => {
+  //   if (queue.length > 0) {
+  //     if (queue[0].id === userUID) {
+  //       playOn();
+  //     }
+  //   }
+  // }, [queue]);
+
+  const addUserInFirebase = async (arr) => {
+    await setDoc(
+      doc(getFirestore(), "autocommitQueue", getAuth().currentUser.uid),
+      arr
+    );
   };
 
   const addUser = () => {
-    const id = uuid4();
     if (name.length > 0) {
-      if (localStorage.getItem("id") === null) {
-        if (!users) {
-          localStorage.setItem("id", id);
-          setFirebase([{ name: name, id: id }])
-            .then(() => {
-              dispatch(
-                showAlert({
-                  severity: "success",
-                  title: "Success",
-                  value: "You added",
-                  show: true,
-                })
-              );
-              setTimeout(() => {
-                dispatch(closeAlert());
-              }, 3000);
-            })
-            .catch((e) => {
-              dispatch(
-                showAlert({
-                  severity: "error",
-                  title: e.code,
-                  value: e.message,
-                  show: true,
-                })
-              );
-              setTimeout(() => {
-                dispatch(closeAlert());
-              }, 3000);
-            });
-        } else {
-          localStorage.setItem("id", id);
-
-          setFirebase([...users, { name: name, id: id }])
-            .then(() => {
-              dispatch(
-                showAlert({
-                  severity: "success",
-                  title: "Success",
-                  value: "You added",
-                  show: true,
-                })
-              );
-              setTimeout(() => {
-                dispatch(closeAlert());
-              }, 3000);
-            })
-            .catch((e) => {
-              dispatch(
-                showAlert({
-                  severity: "error",
-                  title: e.code,
-                  value: e.message,
-                  show: true,
-                })
-              );
-              setTimeout(() => {
-                dispatch(closeAlert());
-              }, 3000);
-            });
+      guestLogin();
+      onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+          dispatch(setUserUID(getAuth().currentUser.uid));
+          addUserInFirebase({
+            name: name,
+            id: getAuth().currentUser.uid,
+            createdAt: DateTime.utc().toFormat("FF"),
+          });
         }
-      }
-    }
-  };
-
-  const skip = () => {
-    const indexUser = users.findIndex(
-      (item) => item.id === localStorage.getItem("id")
-    );
-
-    const deleteUser = users.splice(indexUser, indexUser);
-    const updatedArr = [...users, deleteUser[0]];
-    setFirebase(updatedArr)
-      .then(() => {
-        dispatch(
-          showAlert({
-            severity: "success",
-            title: "Success",
-            value: "You skipped it",
-            show: true,
-          })
-        );
-        setTimeout(() => {
-          dispatch(closeAlert());
-        }, 3000);
-      })
-      .catch((e) => {
-        dispatch(
-          showAlert({
-            severity: "error",
-            title: e.code,
-            value: e.message,
-            show: true,
-          })
-        );
-        setTimeout(() => {
-          dispatch(closeAlert());
-        }, 3000);
       });
-  };
-  const next = () => {
-    const indexUser = users.findIndex(
-      (item) => item.id === localStorage.getItem("id")
-    );
-    if (indexUser === 0) {
-      const newArr = users.shift();
-      const updatedArr = [...users, newArr];
-      console.log(newArr, updatedArr);
-      setFirebase(updatedArr)
-        .then(() => {
-          dispatch(
-            showAlert({
-              severity: "success",
-              title: "Success",
-              value: "",
-              show: true,
-            })
-          );
-          setTimeout(() => {
-            dispatch(closeAlert());
-          }, 3000);
-        })
-        .catch((e) => {
-          dispatch(
-            showAlert({
-              severity: "error",
-              title: e.code,
-              value: e.message,
-              show: true,
-            })
-          );
-          setTimeout(() => {
-            dispatch(closeAlert());
-          }, 3000);
-        });
-    } else {
-      dispatch(
-        showAlert({
-          severity: "warning",
-          title: "You are not the first in queue",
-          value: "If you want to skip, click button SKIP",
-          show: true,
-        })
-      );
-      setTimeout(() => {
-        dispatch(closeAlert());
-      }, 3000);
     }
+  };
+  // const skip = () => {
+  //   const indexUser = users.findIndex(
+  //     (item) => item.id === localStorage.getItem("id")
+  //   );
+  //
+  //   const deleteUser = users.splice(indexUser, indexUser);
+  //   const updatedArr = [...users, deleteUser[0]];
+  //   setFirebase(updatedArr)
+  //     .then(() => {
+  //       dispatch(
+  //         showAlert({
+  //           severity: "success",
+  //           title: "Success",
+  //           value: "You skipped it",
+  //           show: true,
+  //         })
+  //       );
+  //       setTimeout(() => {
+  //         dispatch(closeAlert());
+  //       }, 3000);
+  //     })
+  //     .catch((e) => {
+  //       dispatch(
+  //         showAlert({
+  //           severity: "error",
+  //           title: e.code,
+  //           value: e.message,
+  //           show: true,
+  //         })
+  //       );
+  //       setTimeout(() => {
+  //         dispatch(closeAlert());
+  //       }, 3000);
+  //     });
+  // };
+  const next = async () => {
+    const indexUser = queue.findIndex((item) => item.id === userUID);
+    const user = queue[indexUser];
+
+    await deleteDoc(doc(getFirestore(), "autocommitQueue", userUID));
+    await setDoc(
+      doc(getFirestore(), "autocommitQueue", getAuth().currentUser.uid),
+      user
+    );
   };
   const exit = () => {
     const resultConfirm = window.confirm("Confirm exit?");
     if (resultConfirm) {
-      const updateArr = users.filter(
-        (obj) => obj.id !== localStorage.getItem("id")
-      );
-      setFirebase(updateArr)
-        .then(() => {
-          dispatch(
-            showAlert({
-              severity: "success",
-              title: "Success",
-              value: "You out of queue",
-              show: true,
-            })
-          );
-          setTimeout(() => {
-            dispatch(closeAlert());
-          }, 3000);
-        })
-        .catch((e) => {
-          dispatch(
-            showAlert({
-              severity: "error",
-              title: e.code,
-              value: e.message,
-              show: true,
-            })
-          );
-          setTimeout(() => {
-            dispatch(closeAlert());
-          }, 3000);
-        });
-      localStorage.removeItem("id");
+      deleteDoc(doc(getFirestore(), "autocommitQueue", userUID)).then(() => {
+        getAuth()
+          .signOut()
+          .then(() => {
+            dispatch(setUserUID(""));
+          });
+      });
     }
   };
 
   const viewBtn = () => {
-    const indexUser = users.findIndex(
-      (item) => item.id === localStorage.getItem("id")
-    );
+    const indexUser = queue.findIndex((item) => item.id === userUID);
     if (indexUser === 0) {
       return (
-        <Button onClick={next} variant={"contained"} color={"success"}>
+        <Button onClick={() => next()} variant={"contained"} color={"success"}>
           Next
         </Button>
       );
     } else {
       return (
-        <Button onClick={skip} variant={"contained"} color={"warning"}>
+        <Button variant={"contained"} color={"warning"}>
           Skip
         </Button>
       );
     }
   };
-
-  const userList = users
-    ? users.map((item) => (
+  const userList = queue
+    ? queue.map((item) => (
         <ListItem
           key={item.id}
           sx={{
-            border:
-              item.id === localStorage.getItem("id") ? "2px solid #3e3dbb" : "",
+            border: item.id === userUID ? "2px solid #3e3dbb" : "",
             borderRadius: "5px",
           }}
         >
@@ -283,7 +180,7 @@ const AutocomitQueue = () => {
           </ListItemText>
           <ListItemSecondaryAction
             sx={{
-              display: item.id === localStorage.getItem("id") ? "" : "none",
+              display: item.id === userUID ? "" : "none",
             }}
           >
             {viewBtn()}
@@ -322,17 +219,15 @@ const AutocomitQueue = () => {
         </List>
         <Box
           sx={{
-            display: localStorage.getItem("id") !== null ? "none" : "flex",
+            display: userUID ? "none" : "flex",
             alignItems: "center",
           }}
         >
           <TextField
+            onChange={(event) => dispatch(setName(event.target.value))}
             type={"text"}
             id="outlined-number"
             label={"Name"}
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
           />
           <Button
             onClick={addUser}
